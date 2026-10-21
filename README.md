@@ -49,21 +49,35 @@ de evidencia empirica para la heuristica del profesor.
 
 ```
 virtual-labs-factory/
-  README.md                    <- este archivo
-  HEURISTICA.md                <- mapeo explicito heuristica del profesor -> decisiones de la fabrica
+  README.md                       <- este archivo
+  HEURISTICA.md                   <- mapeo explicito heuristica del profesor -> decisiones de la fabrica
   docs/
-    01-red-agentica.md          <- arquitectura de agentes, roles, jerarquia, protocolos
-    02-dashboard-pixel-art.md   <- diseno tecnico de la interfaz CEO
-    03-roadmap.md               <- fases y entregables semanales
-    04-impacto-educativo.md     <- tesis de impacto en universidades / plataforma educativa IA
-    05-casos-de-prueba.md       <- ficha por cada laboratorio candidato (Rbot, radiacion, satelites)
+    01-red-agentica.md             <- arquitectura de agentes, roles, jerarquia, protocolos
+    02-dashboard-pixel-art.md      <- diseno tecnico de la interfaz CEO
+    03-roadmap.md                  <- fases y entregables semanales (incluye Fase 6: operacion/mantenimiento)
+    04-impacto-educativo.md        <- tesis de impacto en universidades / plataforma educativa IA
+    05-casos-de-prueba.md          <- ficha por cada laboratorio candidato (Rbot, radiacion, satelites)
+    06-investigacion-mercado.md    <- mercado EdTech, competidores, tendencias de agentes
+    07-ai-native-stack.md          <- SDD, ADR, skills, harness, EDD/PDD, Loop Engineering, mods, riesgos
+    08-validacion-curso-claude.md  <- comparacion contra el "AI-Native SDLC Playbook" de Claude Academy
+    09-sensores-auditoria.md       <- capa de sensores/metricas para auditoria y futuro aprendizaje automatico
+  skills/                          <- conocimiento procedural reutilizable entre sesiones (formato Hermes)
   reports/
-    semana-NN.md                <- informe semanal generado por el agente Reportero para el CEO
-  agents/                        <- (fase posterior) configuracion/prompts de cada agente
+    semana-NN.md                   <- informe semanal generado por el agente Reportero para el CEO
+  agents/                          <- (fase posterior) configuracion/prompts de cada agente
 ```
+
+## Vocabulario clave (evitar confusion de acronimos)
+
+- **SDD** = Spec-Driven Development (como se especifica antes de construir).
+- **EDD** = Evaluation-Driven Development (como se evalua la mejora de los AGENTES mismos).
+- **PDD** = Pedagogy-Driven Development (como se valida que un LABORATORIO ensena correctamente —
+  metodologia propia de esta fabrica, no existe en la industria general).
+- Ver `docs/07-ai-native-stack.md` seccion 10 para el detalle completo de esta distincion.
 
 ## Estado actual
 
-Fase 0: planificacion y diseno de la red agentica. Sin agentes desplegados todavia.
+Fase 0: planificacion y diseno de la red agentica + stack AI-Native + capa de sensores. Sin agentes
+desplegados todavia en produccion.
 
 Ver `docs/03-roadmap.md` para las fases siguientes.

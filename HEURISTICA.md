@@ -104,3 +104,58 @@ produccion.
   arriba) como dos capas separadas y evaluables por separado, o las trata como una sola dimension.
 - Si el limite de acreditacion (seccion arriba) debe ser parte formal de la heuristica o queda solo
   como nota de alcance de negocio fuera del documento academico.
+
+
+## Puente con el stack AI-Native (actualizado tras investigacion de 24 recursos)
+
+> Ver `docs/07-ai-native-stack.md` para la investigacion completa (Spec-Driven Development,
+> skills reutilizables, orquestacion multi-agente, registro de specs, harness engineering, y
+> riesgos documentados de autonomia agentica a escala).
+
+### EDD — Education/Evaluation-Driven Development (definicion propia de la fabrica)
+
+La investigacion de SDD (Spec-Driven Development) y del registro de specs tipo Tessl dejo un vacio
+claro: ningun framework generico de la industria cubre la validacion **pedagogica** de un artefacto
+de software, solo la tecnica (tests de codigo, conformidad de API). La fabrica llena ese vacio con
+una metodologia propia, **EDD (Education-Driven Development)**: antes de dar un laboratorio por
+completo, el QA Pedagogico ejecuta una "rubrica pedagogica ejecutable" — equivalente a un test suite,
+pero que verifica que el estudiante puede observar/manipular correctamente el fenomeno declarado en
+la spec, no que el codigo compile.
+
+**Esto es, en si mismo, candidato a ser el aporte mas original de la fabrica a la heuristica
+doctoral del profesor**: EDD seria la pieza que conecta formalmente lo didactico (eje 1 de su
+heuristica) con una practica de ingenieria de software verificable (en vez de quedar como intencion
+cualitativa).
+
+### Constitution por laboratorio mapeada a los 4 ejes
+
+Cada repo de laboratorio debe tener un `constitution.md` (adoptado de GitHub Spec Kit) cuyas
+secciones reflejen explicitamente los 4 ejes de la heuristica, no solo reglas tecnicas sueltas:
+
+```
+# Constitution — <nombre del laboratorio>
+
+## Eje Didactico (reglas inmutables)
+- ...
+
+## Eje Sistemico (reglas inmutables)
+- ...
+
+## Eje 3D (reglas inmutables)
+- ...
+
+## Eje Agentes (reglas inmutables — distingue constructores vs. operadores, ver arriba)
+- ...
+```
+
+Esto convierte la heuristica de documento teorico a **artefacto operativo que todo agente ejecutor
+(Claude Code/Codex) debe respetar sin excepcion** en cada laboratorio construido — es la evidencia
+empirica mas directa de que la heuristica "funciona" en la practica, tal como el profesor busca
+demostrar con su tesis doctoral.
+
+### Pendiente de co-diseñar con el profesor (actualizado)
+
+- Si la "rubrica pedagogica ejecutable" (EDD) debe disenarse junto con el, dado que es el puente
+  mas directo entre esta investigacion y su heuristica doctoral.
+- Si el formato `constitution.md` de 4 secciones (arriba) es la forma correcta de operacionalizar
+  sus 4 ejes, o si el prefiere otra estructura.

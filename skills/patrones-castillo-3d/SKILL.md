@@ -1,6 +1,6 @@
 ---
 name: patrones-castillo-3d
-description: "Use when disenando o portando un lab 3D. Aplica el metodo y patrones del prof. Castillo."
+description: "Use when disenando un lab 3D. Metodo del prof. Castillo."
 version: 0.1.0
 ---
 

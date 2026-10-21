@@ -63,7 +63,7 @@ constitution (1 vez) -> spec (Director+Arquitecto) -> plan+contracts+ADRs (Arqui
 
 El gate diferenciador de este dominio frente a cualquier SDD generico: **QA Pedagogico valida
 contra la spec pedagogica** (¿el estudiante puede observar el fenomeno X correctamente?), algo que
-ningun framework de SDD generico cubre — debe disenarse a medida (ver seccion EDD mas abajo).
+ningun framework de SDD generico cubre — debe disenarse a medida (ver seccion 10, PDD, mas abajo).
 
 ## 2. Registro de Specs (Tessl) — adoptar el patron, no la plataforma
 
@@ -178,7 +178,7 @@ y "Welcome to Gas Town" (Yegge):
 | **PDD** (Pedagogy-Driven Development — definicion propia de la fabrica; ver seccion 10 sobre por que no se llama EDD) | Antes de dar por completo un laboratorio, se ejecuta la "rubrica pedagogica ejecutable" (seccion 2): el lab debe demostrar que cumple sus criterios de aprendizaje declarados, igual que un test demuestra que el codigo cumple su contrato | QA Pedagogico |
 | **Sensores para auditoria/aprendizaje automatico** | Instrumentacion que registra: tiempo por tarea, tasa de retrabajo, decisiones ADR generadas, resultados de "garbage collection" periodico — alimenta la metrica de autonomia (`HEURISTICA.md`) y permite que el Agente Director ajuste prioridades con datos reales, no solo intuicion | Reportero (recoleccion), Director (consumo) |
 | **Loops** | Ciclo semanal fijo (roadmap) + loop de "garbage collection" periodico (harness) + loop RED-GREEN-REFACTOR dentro de TDD para el Ingeniero | Director (ciclo semanal), Ingeniero (TDD) |
-| **Hooks** | Puntos de verificacion automaticos no opcionales: hook pre-merge (constitution + ADR requerido si hay decision arquitectonica), hook post-implementacion (QA Pedagogico corre antes de marcar "listo"), hook de entorno (devcontainer debe buildear limpio antes de reportar) | Harness (mecanico, no humano) |
+| **Hooks** (settings hooks — scripts/HTTP fuera del proceso, no mods de Claude Code) | Puntos de verificacion automaticos no opcionales: settings hook pre-merge (constitution + ADR requerido si hay decision arquitectonica), settings hook post-implementacion (QA Pedagogico corre antes de marcar "listo"), settings hook de entorno (devcontainer debe buildear limpio antes de reportar). Ver seccion 13 para cuando usar un mod (UI in-session) en vez de un settings hook. | Harness (mecanico, no humano) |
 
 ## 9. Decisiones pendientes de validar con el profesor (anadir a Fase 0)
 
@@ -329,3 +329,64 @@ sistemica-3d` (seccion 3) como paso previo de "grilling" (preguntar objetivo ped
 restricciones de hardware del estudiante tipico) — y la decision final de stack queda registrada
 como **ADR-0001-seleccion-de-stack** en `docs/decisions/` de ese repo especifico, no en la
 constitution ni en este documento central.
+
+## 13. Claude Code Mods — herramienta disponible, uso acotado a UI in-session
+
+Fuente: documentacion oficial de Claude Code sobre mods (anunciados 1 de octubre de 2026,
+`code.claude.com/docs/en/plugins/mods/*`).
+
+### Que es un mod (y en que se diferencia de un settings hook)
+
+Un mod es un plugin cuyo codigo (JavaScript/TypeScript) corre **dentro del proceso de Claude Code**
+y se engancha a eventos (llamada a herramienta, prompt enviado, dibujo de interfaz). A diferencia de
+un **settings hook** (script o HTTP request configurado en un archivo de settings, que corre
+**fuera** del proceso), un mod puede:
+
+- Dibujar un panel/UI propio dentro de la sesion (una banda sobre el prompt, un panel lateral,
+  botones).
+- Redibujar o reemplazar partes de la interfaz que Claude Code ya dibuja.
+- Interceptar una llamada a herramienta y sostenerla mientras pregunta algo al usuario, o
+  reemplazarla por otra accion.
+- Compartir estado entre varios de sus propios hooks dentro de la misma sesion.
+
+Tabla de decision oficial (adoptada tal cual por la fabrica):
+
+| Necesidad | Herramienta correcta |
+|---|---|
+| Bloquear/permitir/loggear un evento con un script que ya existe | **Settings hook** |
+| Panel visual, banda sobre el prompt, comando propio, o reescribir un evento con UI | **Mod** |
+| Instrucciones que Claude debe seguir repetidamente | **Skill** |
+| Claude necesita alcanzar un sistema externo | **MCP server** |
+
+### Decision para la fabrica: no reemplazar los settings hooks ya definidos por mods
+
+Las 3 verificaciones mecanicas descritas en la seccion 8 (gate de ADR antes de merge, auditoria de
+llamadas de cada agente, verificacion de que el devcontainer builda limpio) **no requieren dibujar
+nada ni reescribir UI** — son settings hooks simples (`PreToolUse`/`PostToolUse`), mas baratos de
+mantener y ya soportados desde antes de que existieran los mods. Usar un mod para esto seria
+sobre-ingenieria.
+
+### Caso real donde un mod si aporta valor: panel de estado de la fabrica in-session
+
+El unico caso identificado donde un mod justifica su costo adicional es **mostrar el estado de
+`factory-state.json` como un panel visible dentro de la sesion del agente** mientras trabaja — algo
+que ningun settings hook puede hacer, porque no dibuja interfaz. Esto complementa (no reemplaza) al
+dashboard pixel-art externo (`pixel-agents-hq/pixel-agents`, seccion del documento de dashboard):
+
+- El dashboard externo es la vista del **CEO** (fuera de cualquier sesion de agente especifica).
+- Un mod de panel in-session seria la vista que ve el **propio agente ejecutor** (Ingeniero, Agente
+  3D) de su posicion dentro del ciclo de la fabrica (que laboratorio, que fase, que tarea del
+  backlog) mientras trabaja — util para que un agente recien invocado se oriente rapido sin tener que
+  leer `factory-state.json` manualmente en cada turno.
+
+**Decision:** no se implementa en Fase 0-1. Se revalua cuando el dashboard pixel-art (Fase V1-V2,
+ver `docs/02-dashboard-pixel-art.md`) este operativo, como una extension opcional, no como
+requisito del roadmap.
+
+### Riesgo de seguridad a registrar
+
+Los mods **no estan sandboxed**: corren con los mismos permisos que la sesion de Claude Code que los
+carga (leer/escribir archivos, iniciar procesos, hacer requests de red). Si en el futuro la fabrica
+instala mods de marketplaces de terceros (no escritos por el propio equipo), debe exigirse el mod
+oficial `sec-default` como linea base — bloquea que un mod de terceros sobreescriba reglas de
+permiso (`deny`) ya configuradas. Por ahora, ningun mod de terceros esta en uso en la fabrica.

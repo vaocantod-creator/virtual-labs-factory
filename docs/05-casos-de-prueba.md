@@ -41,6 +41,22 @@ proposito como evidencia de la heuristica.
   - ¿Es simulacion educativa conceptual o requiere precision orbital real (SGP4, TLE, etc.)?
   - ¿Que nivel de interaccion tiene el estudiante (observador pasivo vs. control de parametros)?
 
+## 4. Laboratorio de Instrumentacion Electronica (PROPUESTO — requiere aprobacion del CEO)
+
+- **Repo:** pendiente (prototipo del profesor Castillo; confirmar si lo comparte).
+- **Origen:** Melo Q., Castillo R. et al., ICAETT 2022 (ver `docs/10-insumo-articulo-castillo.md`).
+- **Stack actual:** Java 15, Java3D 1.5.1, Blender, UML.
+- **Estado:** prototipo (generador de funciones x2 + osciloscopio; analizador de espectro con FFT previsto).
+- **Rol en la fabrica:** candidato a laboratorio de referencia del metodo del profesor (Component
+  Library, fidelidad al equipo real). NO entra al backlog hasta decision explicita del CEO.
+- **Relacion con la heuristica:** prueba mejor los ejes Sistemico y 3D; valida el Metodo Castillo
+  y la metrica de reutilizacion de componentes.
+
+## Antecedentes del profesor relevantes a los casos 2 y 3
+- Ecuaciones de Maxwell 3D (Tiberio, 2017) -> caso 2 (radiacion).
+- Sateliton II (Castillo, 2014): visualizacion 3D de satelites venezolanos -> caso 3 (satelites).
+- Objetos Java de equipos de telecomunicaciones que interoperan (Castillo, 2011) -> Component Library.
+
 ## Plantilla para nuevos casos
 
 ```md

@@ -107,7 +107,10 @@ prohibe skills-router — pero se incorporan 2 ideas fuertes de los otros sistem
 3. **`qa-pedagogico-laboratorio`** (QA Pedagogico): checklist de fidelidad al modelo sistemico de la
    spec + pruebas de "camino del estudiante" (acciones esperadas vs. errores comunes, el lab debe
    dar feedback correctivo, no solo bloquear) + evidencia visual por criterio.
-4. **`vocabulario-fabrica-labs`** (base, referenciada por todas): glosario unico compartido.
+4. **`patrones-castillo-3d`** (Arquitecto/Agente 3D/Ingeniero/QA): metodo de programacion sistemica
+   del profesor (7 pasos, patrones, Component Library, fidelidad al equipo real). Creada en
+   `skills/patrones-castillo-3d/` (borrador v0.1; ver `docs/10`).
+5. **`vocabulario-fabrica-labs`** (base, referenciada por todas): glosario unico compartido.
 
 ## 4. Orquestacion multi-agente — Hermes ya cubre lo esencial
 
@@ -329,6 +332,11 @@ sistemica-3d` (seccion 3) como paso previo de "grilling" (preguntar objetivo ped
 restricciones de hardware del estudiante tipico) — y la decision final de stack queda registrada
 como **ADR-0001-seleccion-de-stack** en `docs/decisions/` de ese repo especifico, no en la
 constitution ni en este documento central.
+
+### Seccion transversal "Metodo Castillo" en la constitution
+Ademas de los 4 ejes, `templates/constitution.md` incluye una seccion "Metodo Castillo" con
+invariantes del metodo del profesor. No selecciona stack: los patrones son independientes del
+lenguaje y su port se justifica en ADR.
 
 ## 13. Claude Code Mods — herramienta disponible, uso acotado a UI in-session
 

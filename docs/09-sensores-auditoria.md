@@ -35,6 +35,14 @@ infraestructura antes de tener datos reales que justifiquen algo mas complejo.
 | `lab.student_interaction.error_rate` | **(Fase 6, post-publicacion)** tasa de acciones fallidas/confusas del estudiante real usando el laboratorio ya publicado | En produccion, cuando el laboratorio tiene usuarios reales | QA Pedagogico (dispara nueva iteracion de spec si sale de rango, cerrando el Loop Engineering de mantenimiento) |
 | `lab.student_interaction.completion_rate` | **(Fase 6)** porcentaje de estudiantes que completan el laboratorio sin abandonar | En produccion | Arquitecto Heuristico (evidencia empirica para refinar la heuristica del profesor) |
 
+Sensores nuevos derivados del articulo del profesor (`docs/10`):
+
+| Sensor | Que registra | Cuando dispara | Consumidor |
+|---|---|---|---|
+| `lab.component_reuse_pct` | % de componentes de un lab tomados de la Component Library vs. creados nuevos | Al cierre de cada milestone de lab | Arquitecto Heuristico, Reportero (evidencia del metodo del profesor) |
+| `lab.model.numeric_deviation` | Desviacion de salidas del modelo matematico vs. valores de referencia (frecuencia, amplitud, forma) | En cada corrida de test de salida numerica | QA Pedagogico, Ingeniero |
+| `lab.expert_validation.status` | Existencia y resultado del acta de validacion por experto | Al registrar el acta | Reportero, CEO (gate de publicacion) |
+
 ### Capa 3 — Sensores de FABRICA (vista agregada para el CEO)
 
 | Sensor | Que registra | Cuando dispara | Consumidor |

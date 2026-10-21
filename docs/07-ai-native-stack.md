@@ -185,7 +185,7 @@ y "Welcome to Gas Town" (Yegge):
 
 ## 9. Decisiones pendientes de validar con el profesor (anadir a Fase 0)
 
-- Si la "rubrica pedagogica ejecutable" (EDD) debe disenarse junto con el, dado que es el puente
+- Si la "rubrica pedagogica ejecutable" (PDD) debe disenarse junto con el, dado que es el puente
   mas directo entre esta investigacion y su heuristica doctoral.
 - Si el concepto de "constitution" por laboratorio debe reflejar explicitamente los 4 ejes de su
   heuristica (didactico/sistemico/3D/agentes) como secciones fijas, no solo reglas tecnicas sueltas.

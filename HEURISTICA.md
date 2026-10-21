@@ -165,3 +165,25 @@ demostrar con su tesis doctoral.
   mas directo entre esta investigacion y su heuristica doctoral.
 - Si el formato `constitution.md` de 4 secciones (arriba) es la forma correcta de operacionalizar
   sus 4 ejes, o si el prefiere otra estructura.
+
+
+## Puente con el articulo del profesor (ICAETT 2022) — PROPUESTA, pendiente de aprobacion CEO y co-diseno
+
+> Ver `docs/10-insumo-articulo-castillo.md` y `docs/11-guia-conversacion-profesor-castillo.md`.
+
+### El Metodo (insumo del profesor) como parte de "Metodos"
+Programacion sistemica: lab = sistema de subsistemas independientes (iluminacion, visualizacion,
+mobiliario, gestion de equipos; cada equipo es subsistema), diseno top-down / implementacion
+bottom-up, 7 pasos por subsistema (escenarios, casos de uso, clases, comunicacion, estado, grafo de
+escena, codificacion), patrones Object Mobility / Event Controller / Graphic Element Builder, y
+Component Library acumulativa. Operacionalizado en la skill `patrones-castillo-3d` y en la seccion
+"Metodo Castillo" de `templates/constitution.md`.
+
+### Criterio adicional de validacion: fidelidad al equipo real
+Apariencia, usabilidad, operacion y modelo matematico equivalentes al equipo fisico, con diseno
+propio y validacion por experto tecnico (acta) + test de salida numerica. Complementa PDD (efectividad
+didactica con estudiantes); no lo sustituye.
+
+### Pendiente con el profesor
+- Detalle de los patrones (articulo futuro) y si la heuristica cubre solo emulacion de equipos o
+  tambien fenomenos/objetos de aprendizaje.

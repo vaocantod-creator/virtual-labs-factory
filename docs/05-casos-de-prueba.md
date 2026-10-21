@@ -8,10 +8,14 @@ proposito como evidencia de la heuristica.
 - **Repo:** https://github.com/vdiquez/Rbot
 - **Origen:** Tesis de grado, Victor Ocanto y Ronald Verenzuela, 2007, IUTLV (hoy UPTA).
   Tutores: Ing. Andres Castillo, Ing. Felipe Pacheco.
-- **Stack actual:** Java 8, Java3D 1.5.1, Swing, Gradle, comunicacion por UDP.
+- **Stack actual:** Java 8 (requerido para `run*`; el entorno puede tener JDK mas nuevo), Java3D 1.5.1,
+  Swing, Gradle, UDP (puertos 5555 ExperimentalEnvironment y 8080 CommandCenter, comandos de una
+  letra; verificado contra el repo, oct 2026).
 - **Estado:** Codigo funcional legado, con plan de modernizacion ya iniciado (ver
   `PLAN_EJECUTIVO.md`, `PLAN_TECNICO.md`, `BACKLOG_EJECUCION.md`, `CLAUDE.md` en ese repo). Ya tiene
-  convenciones de commit y Definition of Done definidas.
+  convenciones de commit y Definition of Done definidas. Documentos adicionales en el repo:
+  `PLAN_MEJORA.md`, `EJECUCION_LOCAL.md`, `SONARQUBE_LOCAL.md`, `RESUMEN_EJECUTIVO_SESION.md`.
+  Estado de calidad reportado en su backlog: `./gradlew check` con 50 tests, SonarQube Quality Gate OK.
 - **Rol en la fabrica:** Laboratorio piloto (Fase 1 del roadmap). Es el caso ideal para arrancar
   porque ya existe documentacion tecnica, historia y trabajo previo que reduce el riesgo de empezar
   de cero.

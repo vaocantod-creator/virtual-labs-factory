@@ -17,6 +17,29 @@
 | 3D | ¿La representacion espacial/visual es fiel y comprensible? | Agente de Contenido 3D |
 | Agentes | ¿Como participan los agentes de IA, tanto en construir el laboratorio como en su operacion para el estudiante? | Toda la red agentica (construccion) + diseno de tutores/asistentes IA dentro del propio lab (operacion) |
 
+## Dos capas distintas del eje "Agentes" (actualizado tras investigacion de mercado)
+
+> Ver `docs/06-investigacion-mercado.md`, seccion 5, punto 2. La literatura academica reciente
+> (2025-2026) confirma que esta distincion ya es una linea activa de investigacion, no una
+> especulacion nuestra, y conviene formalizarla explicitamente en la heuristica:
+
+1. **Agentes constructores** — la red agentica descrita en `docs/01-red-agentica.md` (Director,
+   Arquitecto Heuristico, Agente 3D, Ingeniero, QA Pedagogico, Reportero). Operan **antes** de que
+   el laboratorio llegue al estudiante; su trabajo termina cuando el laboratorio se publica.
+2. **Agentes operadores** — agentes de IA que viven **dentro** del laboratorio ya construido,
+   interactuando directamente con el estudiante en tiempo real: tutores conversacionales, personajes
+   simulados (ej. un "profesor virtual" o un "companero de laboratorio" con el que practicar), o
+   asistentes que guian al estudiante cuando se equivoca. Evidencia de que esto es relevante:
+   - SENEM-AI: estudiantes virtuales con personalidad en un entorno 3D para entrenar a profesores.
+   - CLiVR: pacientes virtuales conversacionales en VR para practicas medicas.
+   - Framework XR K-12: un "Agente Tutor" que enriquece la escena generada con anotaciones,
+     glosario y preguntas de evaluacion.
+
+**Implicacion para la heuristica:** un laboratorio puede validarse en el eje "Agentes" en dos
+niveles independientes — (a) fue construido eficientemente por agentes, y (b) ofrece agentes utiles
+durante su uso. Un laboratorio puede cumplir (a) sin (b), o viceversa; la heuristica final del
+profesor deberia aclarar si exige ambos o si distingue variantes del producto segun cual cumplen.
+
 ## Metodo de validacion propuesto
 
 Segun las palabras del profesor:
@@ -33,13 +56,42 @@ Esto implica que la heuristica debe producir, para cada laboratorio:
 3. **Lineamientos** — reglas concretas y repetibles (ej. Definition of Done, convenciones de commit,
    checklist del QA Pedagogico).
 4. **Herramientas** — el stack tecnico elegido y por que (Gradle/Java3D para Rbot por continuidad;
-   Phaser para el dashboard por velocidad de iteracion, etc.)
+   `pixel-agents` adaptado para el dashboard por reutilizacion de una solucion ya validada por la
+   comunidad en vez de reinventarla, segun `docs/06-investigacion-mercado.md`).
+
+## Metrica de autonomia (nueva, tras investigacion de mercado)
+
+> Ver `docs/06-investigacion-mercado.md`, seccion 5, punto 3. Herramientas comerciales comparables
+> (Factory.ai con su "Agent Readiness score", Posidonius con sus experimentos de escalado) ya miden
+> formalmente cuanto trabajo ocurre sin intervencion humana. La heuristica deberia adoptar un
+> indicador equivalente, calculado por el Agente Reportero cada semana:
+
+```
+% de autonomia del ciclo = (tareas completadas sin decision del CEO) / (tareas totales del ciclo)
+```
+
+Este numero, mostrado en el dashboard pixel-art, es evidencia directa y cuantificable de que tan
+"lo mas autonoma posible" (criterio explicito del CEO) esta logrando ser la fabrica, y sirve como
+dato empirico para la tesis doctoral sobre que tan automatizable es realmente este tipo de
+produccion.
+
+## Limite realista a declarar explicitamente (nuevo)
+
+> Ver `docs/06-investigacion-mercado.md`, seccion 1. Los jugadores establecidos del mercado
+> (Labster, LabXchange) enfrentan un techo estructural: organismos de acreditacion en ciertas
+> disciplinas (clinicas, ingenieria quimica) exigen horas minimas de laboratorio **fisico**, sin
+> importar que tan bueno sea el laboratorio virtual. La heuristica debe reconocer este limite para
+> no sobreprometer: un laboratorio de la fabrica **complementa** la practica fisica donde la
+> acreditacion lo permite, y en los casos donde no, sirve como preparacion/refuerzo antes o despues
+> de la practica real, no como sustituto total. Este matiz debe quedar explicito en
+   `docs/04-impacto-educativo.md`.
 
 ## Evidencia que la fabrica debe producir por cada laboratorio
 
 - [ ] Especificacion inicial (Arquitecto Heuristico) mapeada a los 4 ejes.
 - [ ] Registro de decisiones tecnicas y su justificacion.
 - [ ] Informe de QA Pedagogico (no solo QA tecnico).
+- [ ] Metrica de autonomia del ciclo (ver arriba).
 - [ ] Reflexion post-mortem: que parte del metodo se reutilizo de laboratorios anteriores y que
       tuvo que adaptarse (esto es lo que prueba — o refuta — que la heuristica generaliza).
 
@@ -48,5 +100,7 @@ Esto implica que la heuristica debe producir, para cada laboratorio:
 - Terminologia exacta que usa su documento doctoral, para no inventar nombres distintos a los suyos.
 - Criterios de evaluacion formal que el espera usar para "validar" la heuristica (cualitativos,
   cuantitativos, estudio de caso, etc.) — esto determina que metricas debe capturar el QA Pedagogico.
-- Si la heuristica distingue entre "agentes en la construccion del lab" y "agentes dentro del lab ya
-  construido (tutores IA para el estudiante)" como dos capas separadas, o las trata como una sola.
+- Si la heuristica distingue formalmente entre agentes-constructores y agentes-operadores (seccion
+  arriba) como dos capas separadas y evaluables por separado, o las trata como una sola dimension.
+- Si el limite de acreditacion (seccion arriba) debe ser parte formal de la heuristica o queda solo
+  como nota de alcance de negocio fuera del documento academico.

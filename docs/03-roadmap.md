@@ -63,3 +63,39 @@ Martes-Jue -> Ingeniero/3D/QA ejecutan, agente Reportero registra avances diario
 Viernes    -> Reportero consolida `reports/semana-NN.md` y lo entrega al CEO por Telegram.
 Fin semana -> CEO revisa, responde con decisiones/ajustes -> entran al backlog del lunes siguiente.
 ```
+
+
+## Fase 6 — Operacion y mantenimiento (post-publicacion, horizonte continuo)
+
+> Agregada tras validar la fabrica contra el curso oficial "AI-Native SDLC Playbook" de Claude
+> Academy (ver `docs/08-validacion-curso-claude.md`). Brecha detectada: las fases 0-5 terminaban en
+> "laboratorio construido/validado" sin un loop de mantenimiento post-publicacion.
+
+Objetivo: cuando un laboratorio ya esta publicado y en uso por estudiantes reales, la fabrica sigue
+monitoreandolo (capa de sensores, `docs/09-sensores-auditoria.md`) y cierra el loop automaticamente
+cuando algo se desvia.
+
+- [ ] Instrumentar sensores de interaccion real del estudiante (`lab.student_interaction.*`,
+      ver `docs/09-sensores-auditoria.md`) en el primer laboratorio publicado (Rbot modernizado).
+- [ ] Definir el rango normal esperado para cada metrica de produccion (ej. tasa de error aceptable)
+      junto con el QA Pedagogico, antes de considerar el sensor "activo".
+- [ ] Cuando una metrica sale de rango, se genera automaticamente una nueva iteracion de spec para
+      el Arquitecto Heuristico (cerrando el Loop Engineering de mantenimiento) en vez de esperar a
+      que el CEO lo note en el reporte semanal.
+- [ ] Reportero incluye en cada informe semanal el estado de produccion de los laboratorios ya
+      publicados, no solo el avance de los que aun estan en construccion.
+
+## Gates de aprobacion — que decide el Director solo vs. que requiere al CEO
+
+> Agregado tras la misma validacion (seccion de brechas, punto 4). El curso oficial distingue
+> explicitamente que revisa la IA/el orquestador y que revisa un humano en el momento de merge/
+> deploy; no es "todo automatico" ni "todo manual".
+
+| Tipo de cambio | Aprobador | Justificacion |
+|---|---|---|
+| Ajuste de contenido 3D no critico (textura, color, detalle visual menor) | Director (solo) | Bajo impacto, alta detectabilidad (matriz de riesgo, seccion 6 del stack AI-Native) |
+| Documentacion, reportes | Director (solo) | Bajo riesgo |
+| Cambio a logica core del simulador legado (fisica, protocolo) | Director + merge solo tras ADR aprobado | Alto impacto, baja detectabilidad |
+| Publicar un laboratorio como "completo" ante el profesor/universidad | **CEO explicito** | Decision de negocio/academica, no solo tecnica |
+| Cambios a `HEURISTICA.md` | **CEO explicito** (y co-diseño con el profesor cuando aplique) | Es el documento puente con la tesis doctoral, no una decision tecnica interna |
+| Nuevo laboratorio entra al backlog (ej. aceptar un 4to caso de prueba) | **CEO explicito** | Decision estrategica de que construye la fabrica |

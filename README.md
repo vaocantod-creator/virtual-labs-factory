@@ -61,6 +61,10 @@ virtual-labs-factory/
     07-ai-native-stack.md          <- SDD, ADR, skills, harness, EDD/PDD, Loop Engineering, mods, riesgos
     08-validacion-curso-claude.md  <- comparacion contra el "AI-Native SDLC Playbook" de Claude Academy
     09-sensores-auditoria.md       <- capa de sensores/metricas para auditoria y futuro aprendizaje automatico
+    10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
+    11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
+  templates/
+    constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)
   skills/                          <- conocimiento procedural reutilizable entre sesiones (formato Hermes)
   reports/
     semana-NN.md                   <- informe semanal generado por el agente Reportero para el CEO

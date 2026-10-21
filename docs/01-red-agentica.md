@@ -52,6 +52,8 @@ agrega resultados y habla con el CEO.
   - Que principio sistemico aplica (ej. separacion entrada/proceso/salida igual que el equipo real).
   - Que decisiones 3D son necesarias (nivel de fidelidad visual requerido).
   - Que rol tendran los agentes en la operacion final del laboratorio (no solo en construirlo).
+- Para laboratorios 3D aplica el **Metodo Castillo** (skill `patrones-castillo-3d`): subsistemas
+  independientes, top-down/bottom-up, 7 pasos con grafo de escena, registro en Component Library.
 - Produce un **documento de especificacion por laboratorio** (`docs/lab-<nombre>/especificacion.md`)
   que los demas agentes ejecutan.
 - Es el unico agente que puede proponer cambios a `HEURISTICA.md` (sujeto a aprobacion del CEO),
@@ -60,6 +62,8 @@ agrega resultados y habla con el CEO.
 ### 3. Agente de Contenido 3D
 
 - Encargado de todo lo relacionado a modelos, escenas, assets visuales.
+- Implementa los patrones Object Mobility / Event Controller / Graphic Element Builder (o su port
+  registrado en ADR) y aporta componentes a la Component Library.
 - Para casos legados como Rbot: audita modelos `.3ds` existentes, decide que conservar/refactorizar.
 - Para laboratorios nuevos (radiacion, satelites): decide el motor 3D mas adecuado segun el caso
   (Three.js/WebGL para accesibilidad web, Godot si se requiere mas control de fisica, Unity si el
@@ -83,6 +87,8 @@ agrega resultados y habla con el CEO.
   - ¿El estudiante puede fallar de forma realista (como con el instrumento real)?
   - ¿La interfaz comunica correctamente el fenomeno fisico/tecnico simulado?
   - ¿Es accesible para el contexto tecnico probable de un estudiante (ej. sin GPU dedicada)?
+  - Si emula un equipo: ¿fidelidad al equipo real (apariencia, usabilidad, modelo matematico)? Ver
+    `skills/patrones-castillo-3d/references/fidelidad-y-validacion.md`.
 - Genera un **informe de validacion por laboratorio**, que alimenta tanto al CEO como de vuelta al
   Arquitecto Heuristico (para refinar la heuristica con evidencia real).
 

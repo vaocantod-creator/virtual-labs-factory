@@ -3,8 +3,10 @@
 > Fuente: Melo Q., Castillo R., Valencia V., Bravo D., Simbana L. "Virtual Laboratory of Electronic
 > Instrumentation Based on a Programming Proposal Focused on Systems". ICAETT 2022, LNNS 619,
 > pp. 483-496, Springer 2023. DOI 10.1007/978-3-031-25942-5_38.
-> Nota: el texto extraido del PDF tenia parrafos truncados (seccion 2.2 sobre programacion sistemica,
-> y parte de la Component Library). Pendiente leer el PDF completo para confirmar esos detalles.
+> Nota: lectura completada con el PDF integro (15 paginas). Hallazgos adicionales: 4 subsistemas
+> (iluminacion, visualizacion, mobiliario, gestion de equipos), uso del patron MVC, hojas de calculo
+> para validar formulas, 2 manuales de practica + manuales de usuario. Los detalles de los patrones
+> siguen sin publicarse (el profesor los presentara en otro articulo).
 
 ## 1. Que aporta el articulo
 
@@ -101,8 +103,9 @@ de materiales es contexto, no requisito.
 
 ## 6. Proximos pasos propuestos (requieren aprobacion CEO donde se indica)
 
-- [ ] Leer el PDF completo (parrafos truncados) y confirmar patrones y Component Library.
-- [ ] Skill `patrones-castillo-3d` + extension de plantilla `constitution.md`.
+- [x] Leer el PDF completo.
+- [x] Skill `patrones-castillo-3d` (`skills/patrones-castillo-3d/`) + plantilla `templates/constitution.md`.
+- [x] Guia de conversacion: `docs/11-guia-conversacion-profesor-castillo.md`.
 - [ ] Extender `HEURISTICA.md` con el Metodo (**CEO explicito**, co-diseno con el profesor).
 - [ ] Criterio "fidelidad al equipo real" en QA Pedagogico.
 - [ ] Decidir si el Lab de Instrumentacion es 4to caso de prueba (**CEO explicito**).

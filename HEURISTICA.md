@@ -112,18 +112,24 @@ produccion.
 > skills reutilizables, orquestacion multi-agente, registro de specs, harness engineering, y
 > riesgos documentados de autonomia agentica a escala).
 
-### EDD — Education/Evaluation-Driven Development (definicion propia de la fabrica)
+### PDD — Pedagogy-Driven Development (definicion propia de la fabrica)
+
+> Nota de nomenclatura: esta metodologia se llamo inicialmente "EDD (Education-Driven Development)".
+> Se renombro a **PDD** porque "EDD" ya es un termino de industria con otro significado
+> (Evaluation-Driven Development, ver `docs/07-ai-native-stack.md` seccion 10 para el detalle y la
+> metodologia EDD real que tambien adopta la fabrica, aplicada a los agentes mismos, no al
+> laboratorio como producto).
 
 La investigacion de SDD (Spec-Driven Development) y del registro de specs tipo Tessl dejo un vacio
 claro: ningun framework generico de la industria cubre la validacion **pedagogica** de un artefacto
 de software, solo la tecnica (tests de codigo, conformidad de API). La fabrica llena ese vacio con
-una metodologia propia, **EDD (Education-Driven Development)**: antes de dar un laboratorio por
+una metodologia propia, **PDD (Pedagogy-Driven Development)**: antes de dar un laboratorio por
 completo, el QA Pedagogico ejecuta una "rubrica pedagogica ejecutable" — equivalente a un test suite,
 pero que verifica que el estudiante puede observar/manipular correctamente el fenomeno declarado en
 la spec, no que el codigo compile.
 
 **Esto es, en si mismo, candidato a ser el aporte mas original de la fabrica a la heuristica
-doctoral del profesor**: EDD seria la pieza que conecta formalmente lo didactico (eje 1 de su
+doctoral del profesor**: PDD seria la pieza que conecta formalmente lo didactico (eje 1 de su
 heuristica) con una practica de ingenieria de software verificable (en vez de quedar como intencion
 cualitativa).
 
@@ -155,7 +161,7 @@ demostrar con su tesis doctoral.
 
 ### Pendiente de co-diseñar con el profesor (actualizado)
 
-- Si la "rubrica pedagogica ejecutable" (EDD) debe disenarse junto con el, dado que es el puente
+- Si la "rubrica pedagogica ejecutable" (PDD) debe disenarse junto con el, dado que es el puente
   mas directo entre esta investigacion y su heuristica doctoral.
 - Si el formato `constitution.md` de 4 secciones (arriba) es la forma correcta de operacionalizar
   sus 4 ejes, o si el prefiere otra estructura.

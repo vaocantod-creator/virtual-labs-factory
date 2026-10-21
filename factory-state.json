@@ -1,0 +1,16 @@
+{
+  "ciclo_actual": "2026-W43",
+  "laboratorios": [
+    {
+      "id": "rbot",
+      "repo": "https://github.com/vdiquez/Rbot",
+      "fase": "Fase B - Estandarizacion tecnica",
+      "agente_activo": null,
+      "ultima_actividad": null,
+      "bloqueado_por": null
+    }
+  ],
+  "agentes": [
+    {"rol": "Director", "estado": "inactivo", "ultima_accion": null}
+  ]
+}

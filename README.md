@@ -41,6 +41,8 @@ educativo, y la fabrica queda como una plataforma reutilizable para generar nuev
 1. **Rbot** — Robot virtual 3D controlado por UDP (Java3D, 2007). https://github.com/vdiquez/Rbot
 2. **Patrones de radiacion** — proyecto de telecomunicaciones (pendiente de compartir repo).
 3. **Satelites** — proyecto de simulacion satelital (pendiente de compartir repo).
+4. **Laboratorio de Instrumentacion Electronica** *(propuesto, pendiente de aprobacion del CEO)* —
+   generador de funciones + osciloscopio del profesor Castillo (ver `docs/05-casos-de-prueba.md`).
 
 Cada uno es candidato a convertirse en un "producto" construido/modernizado por la fabrica, sirviendo
 de evidencia empirica para la heuristica del profesor.
@@ -56,18 +58,21 @@ virtual-labs-factory/
     02-dashboard-pixel-art.md      <- diseno tecnico de la interfaz CEO
     03-roadmap.md                  <- fases y entregables semanales (incluye Fase 6: operacion/mantenimiento)
     04-impacto-educativo.md        <- tesis de impacto en universidades / plataforma educativa IA
-    05-casos-de-prueba.md          <- ficha por cada laboratorio candidato (Rbot, radiacion, satelites)
+    05-casos-de-prueba.md          <- ficha por cada laboratorio candidato (Rbot, radiacion, satelites + propuesto: instrumentacion)
     06-investigacion-mercado.md    <- mercado EdTech, competidores, tendencias de agentes
     07-ai-native-stack.md          <- SDD, ADR, skills, harness, EDD/PDD, Loop Engineering, mods, riesgos
     08-validacion-curso-claude.md  <- comparacion contra el "AI-Native SDLC Playbook" de Claude Academy
     09-sensores-auditoria.md       <- capa de sensores/metricas para auditoria y futuro aprendizaje automatico
     10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
     11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
+    decisions/                     <- ADRs (0000-plantilla-adr.md es la plantilla)
   templates/
     constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)
-  skills/                          <- conocimiento procedural reutilizable entre sesiones (formato Hermes)
-  reports/
-    semana-NN.md                   <- informe semanal generado por el agente Reportero para el CEO
+    spec.md                        <- plantilla de especificacion por laboratorio
+  skills/
+    patrones-castillo-3d/          <- skill del Metodo Castillo (borrador v0.1; aun fuera de Hermes)
+  factory-state.json               <- estado de la fabrica (semilla; lo actualizara el Director)
+  reports/                         <- semana-NN.md generado por el Reportero (vacio hasta Fase 1)
   agents/                          <- (fase posterior) configuracion/prompts de cada agente
 ```
 

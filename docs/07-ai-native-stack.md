@@ -175,7 +175,7 @@ y "Welcome to Gas Town" (Yegge):
 |---|---|---|
 | **TDD** (Test-Driven Development) | Para codigo tecnico de alto riesgo (logica core del simulador): test de caracterizacion antes de modernizar, test nuevo antes de feature nueva | Ingeniero de Laboratorio |
 | **SDD** (Spec-Driven Development) | Spec-anchored para labs nuevos, spec de comportamiento-observado para legado; constitution + spec + plan + ADRs antes de implementar | Arquitecto Heuristico (autor), todos (consumidores) |
-| **EDD** (Education/Evaluation-Driven Development — definicion propia de la fabrica) | Antes de dar por completo un laboratorio, se ejecuta la "rubrica pedagogica ejecutable" (seccion 2): el lab debe demostrar que cumple sus criterios de aprendizaje declarados, igual que un test demuestra que el codigo cumple su contrato | QA Pedagogico |
+| **PDD** (Pedagogy-Driven Development — definicion propia de la fabrica; ver seccion 10 sobre por que no se llama EDD) | Antes de dar por completo un laboratorio, se ejecuta la "rubrica pedagogica ejecutable" (seccion 2): el lab debe demostrar que cumple sus criterios de aprendizaje declarados, igual que un test demuestra que el codigo cumple su contrato | QA Pedagogico |
 | **Sensores para auditoria/aprendizaje automatico** | Instrumentacion que registra: tiempo por tarea, tasa de retrabajo, decisiones ADR generadas, resultados de "garbage collection" periodico — alimenta la metrica de autonomia (`HEURISTICA.md`) y permite que el Agente Director ajuste prioridades con datos reales, no solo intuicion | Reportero (recoleccion), Director (consumo) |
 | **Loops** | Ciclo semanal fijo (roadmap) + loop de "garbage collection" periodico (harness) + loop RED-GREEN-REFACTOR dentro de TDD para el Ingeniero | Director (ciclo semanal), Ingeniero (TDD) |
 | **Hooks** | Puntos de verificacion automaticos no opcionales: hook pre-merge (constitution + ADR requerido si hay decision arquitectonica), hook post-implementacion (QA Pedagogico corre antes de marcar "listo"), hook de entorno (devcontainer debe buildear limpio antes de reportar) | Harness (mecanico, no humano) |
@@ -186,3 +186,146 @@ y "Welcome to Gas Town" (Yegge):
   mas directo entre esta investigacion y su heuristica doctoral.
 - Si el concepto de "constitution" por laboratorio debe reflejar explicitamente los 4 ejes de su
   heuristica (didactico/sistemico/3D/agentes) como secciones fijas, no solo reglas tecnicas sueltas.
+
+
+## 10. Desambiguacion de acronimos: EDD (Evaluation) vs. metodologia pedagogica propia
+
+> Actualizado tras investigacion adicional sobre "Evaluation-Driven Development" y "Loop
+> Engineering" (ver fuentes abajo).
+
+**Problema detectado:** "EDD" ya es un termino consolidado en la industria desde 2024-2025 como
+**Evaluation-Driven Development** — la practica de escribir el *eval* (criterio de evaluacion,
+dataset, metrica, guard) ANTES de tocar un prompt/modelo/agente, aplicando la logica de TDD
+(red-then-green) a sistemas no deterministicos. Esta en uso activo en MLflow, LangChain, y
+formalizado academicamente como "EDDOps" (arXiv 2411.13768). Reutilizar "EDD" para nuestra
+metodologia de validacion pedagogica (lo que antes llamamos "Education-Driven Development" en la
+seccion 8) crearia una colision de acronimo dentro de nuestros propios documentos.
+
+**Decision: renombrar.** La metodologia pedagogica propia de la fabrica pasa a llamarse
+**PDD — Pedagogy-Driven Development**. El acronimo **EDD queda reservado para su significado
+estandar de la industria: Evaluation-Driven Development**, y se adopta formalmente como metodologia
+propia (ver mas abajo), distinta mas complementaria de PDD.
+
+### EDD (Evaluation-Driven Development) — adoptada, con significado estandar de industria
+
+Fuentes: paper EDDOps (arXiv 2411.13768), testmuai.com, engineersofai.com, MLflow docs, LangChain
+blog (caso Dosu).
+
+Principio: **el eval se escribe antes del cambio**, debe fallar en el sistema actual (si ya pasa, el
+eval no describe el cambio), y el cambio solo se acepta si el eval mejora sin romper "guard metrics"
+(metricas que no pueden empeorar, ej. latencia, costo, tasa de rechazo). Ciclo:
+
+```
+Escribir eval spec -> correrlo en el sistema actual (debe fallar) -> registrar baseline
+  -> hacer el cambio minimo -> re-correr mismo eval/mismo juez -> comparar por segmento
+  -> aceptar o bloquear segun la regla -> promover el caso a regresion permanente
+```
+
+**Aplicacion en la fabrica:** EDD aplica a los **agentes de IA mismos** (no al laboratorio 3D como
+producto educativo) — es decir, a como medimos si el Arquitecto Heuristico, el Agente 3D o el
+Ingeniero mejoran o empeoran con cada ajuste de su prompt/skill/modelo. Ejemplo: antes de ajustar el
+skill `modernizar-java3d-legacy`, se escribe un eval ("dado este fragmento de escena Java3D, el
+agente debe producir un mapeo correcto a Three.js en al menos 8/10 casos de prueba curados") que
+debe fallar con el skill actual; el ajuste al skill solo se acepta si el eval mejora sin que empeore
+el guard metric de costo/tiempo por tarea. Responsable: el **Director**, porque es quien ajusta y
+mantiene los skills/prompts de los demas agentes.
+
+### PDD (Pedagogy-Driven Development) — renombrada, significado propio de la fabrica
+
+Es la metodologia que en la seccion 8 llamabamos "EDD (Education/Evaluation-Driven Development)".
+Se mantiene identica en su definicion operativa, solo cambia el nombre para evitar la colision:
+
+> Antes de dar un laboratorio por completo, el QA Pedagogico ejecuta una "rubrica pedagogica
+> ejecutable" — equivalente a un test suite, pero que verifica que el estudiante puede
+> observar/manipular correctamente el fenomeno declarado en la spec, no que el codigo compile.
+
+**Diferencia clave entre EDD y PDD en la fabrica:**
+
+| | EDD (Evaluation-Driven Development) | PDD (Pedagogy-Driven Development) |
+|---|---|---|
+| Que se evalua | La calidad del trabajo de los AGENTES de la fabrica (prompts/skills) | La calidad del LABORATORIO VIRTUAL como producto educativo |
+| Quien lo ejecuta | Director (sobre sus propios agentes) | QA Pedagogico (sobre el output final) |
+| Analogo de industria | TDD aplicado a sistemas LLM (EDDOps) | No existe equivalente en la industria — aporte original de la fabrica |
+| Cuando corre | Cada vez que se ajusta un skill/prompt de un rol | Cada vez que un laboratorio llega a un milestone/entrega |
+
+Ambas metodologias son complementarias, no sustitutas: EDD certifica que *los agentes mejoran*; PDD
+certifica que *el laboratorio ensena*. Un agente puede pasar su EDD (genera codigo 3D correcto segun
+su eval tecnico) y aun asi el laboratorio resultante puede fallar su PDD (el estudiante no entiende
+el fenomeno) — por eso se necesitan las dos, no una sola.
+
+## 11. Loop Engineering — adoptado como capa formal sobre Harness Engineering
+
+Fuentes: Addy Osmani (junio 2026, ensayo fundacional "loop engineering"), kilo.ai, makefun.ai,
+estudio exploratorio arXiv 2608.21884 (mineria de 36,710 repos confirmando adopcion real del
+patron), arXiv 2610.15093 (TurnCost, formalizacion tecnica del termino).
+
+### Jerarquia de abstraccion de la industria (2022-2026), ahora completa
+
+| Era | Paradigma | Unidad de trabajo |
+|---|---|---|
+| 2022-2023 | Prompt Engineering | El prompt |
+| 2024 | Agentic Workflows | La cadena de pasos |
+| 2025 | Harness Engineering (ver seccion 5) | El harness (restricciones alrededor del modelo) |
+| 2026 | **Loop Engineering** | El loop (ciclo iterativo que invoca al harness repetidamente) |
+
+**Definicion operativa (consolidada de las fuentes):** Loop Engineering es la practica de disenar
+**el sistema que invoca al agente repetidamente**, en vez de que un humano prompte paso a paso. Un
+loop bien disenado tiene: trigger (horario o evento), condicion de parada verificable por maquina
+(no por el mismo modelo que hizo el trabajo), estado persistente fuera de la conversacion, un
+verificador separado del implementador (principio maker/checker), presupuesto de costo/tiempo, y un
+punto definido de escalamiento a humano.
+
+### Loops concretos ya existentes en el diseno de la fabrica (ahora formalizados con este marco)
+
+| Loop | Trigger | Condicion de parada | Verificador | Estado persistido |
+|---|---|---|---|---|
+| **Cadencia semanal** (roadmap) | Cron semanal (lunes) | Backlog de la semana resuelto o escalado al CEO | El Director revisa contra `factory-state.json` | `factory-state.json` + reportes semanales |
+| **TDD** (Ingeniero) | Nueva tarea de codigo en ruta critica | Test pasa + `./gradlew check` limpio | Suite de tests (no el mismo agente que escribio el codigo) | Commit + test suite en el repo |
+| **EDD** (Director sobre sus agentes) | Ajuste de skill/prompt de un rol | Eval mejora sin romper guard metrics | Dataset de eval curado, juez separado | Regresion de evals versionada |
+| **PDD** (QA Pedagogico) | Laboratorio llega a milestone | Rubrica pedagogica aprobada | QA Pedagogico (rol separado de quien construyo) | Informe de validacion en el repo |
+| **Garbage collection** (harness, seccion 5) | Periodico (ej. semanal, antes del reporte) | Sin inconsistencias spec-codigo detectadas | QA Pedagogico o Reportero | ADRs + issues abiertos si hay drift |
+| **Integracion/merge** (mitigacion de riesgo "Gas Town", seccion 7) | Cualquier PR de un agente especializado | Merge aprobado por el Director | Director (rol integrador fijo, nunca el agente que escribio el codigo) | Historial git |
+
+**Implicacion de diseno:** la fabrica ya tenia estos loops disenados de forma dispersa en
+`docs/01-red-agentica.md`, `docs/03-roadmap.md` y la seccion 7 de este documento. Loop Engineering
+los unifica bajo un mismo vocabulario y una misma checklist de calidad (trigger + parada verificable
++ verificador separado + estado persistente + presupuesto + escalamiento) — cualquier loop nuevo que
+se anada a la fabrica en el futuro debe poder completar esos 6 campos antes de implementarse.
+
+**Advertencia adoptada (de Osmani, citada en las fuentes):** *"Dos personas pueden construir el
+mismo loop y obtener resultados opuestos. Una lo usa para avanzar mas rapido en trabajo que entiende
+a profundidad. La otra lo usa para evitar entender el trabajo. El loop no sabe la diferencia. Tu
+si."* — Esto refuerza que el CEO (Victor) debe seguir revisando semanalmente el contenido real de lo
+producido, no solo confirmar que "los loops corrieron sin error".
+
+## 12. Donde se define el stack tecnico — NO en la constitution
+
+Pregunta explicita del CEO: *"En la etapa de constitution vamos a definir el stack para esta
+implementacion?"* Respuesta, siguiendo la separacion de responsabilidades ya adoptada de Bockeler/
+Fowler y GitHub Spec Kit (seccion 1):
+
+**No.** La constitution define **principios y restricciones inmutables**, no la seleccion de stack.
+La seleccion de stack (que motor 3D, que lenguaje, que libreria de fisica) ocurre en la fase de
+**plan**, a cargo del Arquitecto Heuristico, justificada mediante **ADRs** (seccion 1) — exactamente
+la separacion que ya establecimos: *"la spec no debe mencionar stack tecnico"*.
+
+**Matiz para Rbot (legado):** la constitution de Rbot SI puede fijar restricciones tecnicas, pero
+como **invariantes a preservar**, no como eleccion de stack nueva. Ejemplo correcto para la
+constitution de Rbot:
+
+```
+## Eje Sistemico (reglas inmutables)
+- El protocolo UDP de control (puertos 5555/8080, comandos de una letra a-j) no se reemplaza
+  sin ADR aprobado por el Director — es un invariante del sistema original, no una eleccion
+  tecnica nueva a debatir en cada tarea.
+```
+
+Esto es distinto a decidir "usamos Three.js vs Babylon.js" — esa decision es tecnica y nueva, le
+corresponde al **plan + ADR del Arquitecto Heuristico**, no a la constitution.
+
+**Para laboratorios nuevos (radiacion, satelites):** el stack se decide explicitamente en la
+primera iteracion de Fase 1/3 del roadmap, usando el skill `escribir-spec-heuristica-didactico-
+sistemica-3d` (seccion 3) como paso previo de "grilling" (preguntar objetivo pedagogico, nivel,
+restricciones de hardware del estudiante tipico) — y la decision final de stack queda registrada
+como **ADR-0001-seleccion-de-stack** en `docs/decisions/` de ese repo especifico, no en la
+constitution ni en este documento central.

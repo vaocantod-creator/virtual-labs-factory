@@ -13,6 +13,7 @@ Objetivo: dejar la fabrica lista para operar, sin agentes autonomos todavia ejec
 - [ ] Definir el primer laboratorio piloto: **Rbot**, porque ya tiene codigo, historia y un plan de
       modernizacion iniciado (`PLAN_EJECUTIVO.md`, `BACKLOG_EJECUCION.md` ya existen en ese repo).
 - [ ] Especificar `factory-state.json` (formato final) y donde vive (este repo o un endpoint).
+      Semilla creada en la raiz del repo; falta definir esquema final y quien lo actualiza.
 - [ ] V0 del dashboard pixel-art (estatico, lee el JSON, sin movimiento).
 
 ## Fase 1 — Primer ciclo agentico real (semanas 3-5)
@@ -28,6 +29,15 @@ siguiendo el backlog ya existente en ese repo.
 - [ ] Arquitecto Heuristico redacta la primera especificacion formal (`docs/lab-rbot/especificacion.md`)
       conectando las decisiones tecnicas del backlog con los 4 ejes de la heuristica.
 - [ ] Reportero entrega el primer informe semanal real al CEO.
+
+## Transversal — Brechas pendientes de la validacion contra el curso de Claude Academy
+
+> Origen: `docs/08-validacion-curso-claude.md`, resumen de brechas 1-3 (las 4 y 5 ya estan en la
+> tabla de gates y la Fase 6).
+
+- [ ] Flujo intent -> spec en una sola sesion: anadirlo a la skill del Arquitecto Heuristico.
+- [ ] Plan mode como practica por defecto: anadirlo a la skill del Ingeniero y del Agente 3D.
+- [ ] CI que dispare los evals (EDD) al modificar cualquier skill.
 
 ## Fase 2 — QA Pedagogico + Dashboard dinamico (semanas 6-8)
 

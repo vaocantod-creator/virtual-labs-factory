@@ -50,6 +50,15 @@ siguiendo el backlog ya existente en ese repo.
 - [ ] Borrador de "version 1.0" de `HEURISTICA.md` como documento candidato a anexarse a la tesis
       doctoral.
 
+## Transversal — Metodo Castillo (insumo del articulo ICAETT 2022)
+
+- [x] Analisis del articulo (`docs/10`) y skill `patrones-castillo-3d` v0.1.
+- [ ] Reunion con el profesor (`docs/11`): confirmar patrones, alcance y tolerancias.
+- [ ] Aplicar el Metodo Castillo en la especificacion de Rbot (Fase 1) y registrar la Component Library.
+- [ ] Medir `lab.component_reuse_pct` desde el segundo laboratorio (Fase 3).
+- [ ] Decidir si el Laboratorio de Instrumentacion entra como 4º caso (**CEO explicito**).
+- [ ] Horizonte Fase 5: inmersivo/metaverso (trabajo futuro del articulo).
+
 ## Fase 5 — Plataforma educativa (horizonte posterior)
 
 - [ ] Evaluar empaquetar la fabrica + los laboratorios resultantes como oferta para otras

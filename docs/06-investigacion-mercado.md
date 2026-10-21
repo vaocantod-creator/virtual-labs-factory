@@ -135,8 +135,8 @@ Comparando el mercado + la investigacion contra nuestra propuesta actual (`docs/
 
 ## 6. Recomendaciones concretas antes de iniciar Fase 1
 
-1. Evaluar forkear `pixel-agents-hq/pixel-agents` en vez de construir el dashboard desde cero con
-   Phaser (actualiza `docs/02-dashboard-pixel-art.md`).
+1. ~~Evaluar forkear `pixel-agents-hq/pixel-agents` en vez de construir el dashboard desde cero con
+   Phaser~~ — **resuelto**: adoptado en `docs/02-dashboard-pixel-art.md` (Phaser queda como plan B).
 2. Anadir a `HEURISTICA.md` la distincion explicita entre agentes-constructores y
    agentes-operadores-del-lab, con referencia a la evidencia de esta investigacion.
 3. Anadir una metrica de autonomia al Agente Reportero (actualiza `docs/01-red-agentica.md`).

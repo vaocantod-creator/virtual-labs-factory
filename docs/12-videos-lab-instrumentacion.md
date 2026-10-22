@@ -54,7 +54,7 @@ Duplicados detectados: 29 archivos = ~25 contenidos unicos (`aeec64a297b1`=`6ad6
 
 ## 3. Lo que revelan sobre el metodo del profesor (lectura para la fabrica)
 
-1. **Valores iniciales deterministas** (100 MHz / 10 V / 0 V DC / fase 0 / seno; moduladora 10 MHz /
+1. **Valores iniciales deterministas** (verificados contra el codigo: `docs/13`, seccion 9) (100 MHz / 10 V / 0 V DC / fase 0 / seno; moduladora 10 MHz /
    5 V; osciloscopio a 2 V/div y 2 ns/div, cursores en cero y no visibles). Son oraculos de test
    automatico directos (`lab.model.numeric_deviation`).
 2. **Reinicio por ciclo de encendido** (apagar/encender restaura configuracion por defecto): invariante

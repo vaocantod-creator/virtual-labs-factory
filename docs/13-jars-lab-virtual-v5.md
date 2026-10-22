@@ -2,9 +2,11 @@
 
 > Fuente: `Programa_Laboratorio_Virtual_V5.zip` (4 partes, 70,8 MB, 477 entradas, integridad verificada).
 > Metodo: lectura estatica de los archivos `.class` (parser propio de la tabla de constantes y firmas;
-> no hay `javap` en el servidor). **No se ejecuto ningun codigo del laboratorio.** No hay fuentes
-> `.java`: solo binarios y modelos 3D (`.3DS`). Lo aqui descrito sale de nombres de clases, jerarquia
-> de herencia y firmas de metodos; el comportamiento interno no fue leido.
+> no hay `javap` en el servidor) y, en una segunda pasada, **decompilacion con CFR 0.152** de 28 clases
+> clave (modelo y control del generador y del osciloscopio, clases base y configuraciones; ~7152 lineas).
+> **No se ejecuto ningun codigo del laboratorio.** No hay fuentes `.java` originales: solo binarios y
+> modelos 3D (`.3DS`). La decompilacion se limita a esas clases (no a todo el JAR); el resto de lo descrito
+> sale de nombres, herencia y firmas. El codigo decompilado queda **solo en local** (no se publica).
 
 ## 1. Contenido
 
@@ -89,14 +91,13 @@ MVC (aunque con menos clases que otros: su modelo no tiene metodos propios en el
 
 Esto permite derivar tests de salida numerica **de caja negra** sin ejecutar la GUI: construir
 `GeneradorSeñales`, fijar parametros y comparar `getValorPortadora/Moduladora/SeñalModulada*` contra la
-formula teorica (AM, FM, FSK). Los valores iniciales (100 MHz, 10 V, etc.) estan en `configuracionCero` y
-`configuracionDeInicio`, cuyo contenido **no he leido** (solo los nombres): hay que confirmarlos
-leyendo el bytecode de esos metodos o ejecutando una prueba en entorno aislado.
+formula teorica (AM, FM, FSK). Los valores iniciales fueron **verificados por decompilacion** (seccion 9).
 
 ## 5. Deuda tecnica y riesgos (para la modernizacion)
 
-- **Sin fuentes**: solo `.class`; modernizar requiere decompilacion (CFR/Fernflower) o que el profesor
-  entregue el codigo.
+- **Sin fuentes**: solo `.class`. La decompilacion con CFR funciona (28 clases sin fallos; un solo aviso de estilo de CFR, "Lifted jumps to return sites", en `ProcesadorComandos`), asi
+  que la modernizacion es viable sin el fuente, aunque los nombres de variables locales se pierden y el
+  fuente original sigue siendo preferible.
 - **Java3D 1.5.1 / JDK 8** (`1.8.0_112`/`1.8.0_191`) y dependencias nativas de Java3D.
 - **Duplicacion**: `ObjetoGrafico` / `ObjetoGrafico2` / `EquipoTelecom` (x2: Vista y Modelo),
   `Cargador3DS` repetido (principal, OsciloscopioHP, `Cargador3DS_1` en mobiliario), `Marcador` /
@@ -136,7 +137,72 @@ leyendo el bytecode de esos metodos o ejecutando una prueba en entorno aislado.
 ## 8. Alcance y limites de este analisis
 
 - No ejecute el JAR, ni lo instale, ni abri su GUI.
-- No lei el bytecode de los metodos (solo firmas y nombres); lo que digo sobre comportamiento viene de
-  los nombres y de los videos, no de la logica interna.
+- Decompile solo 28 clases (modelo/control del generador y del osciloscopio, clases base): la logica
+  de los otros equipos (HP, analizador, SWR, atenuador, mobiliario) no fue leida, solo sus firmas.
+- Lo que digo en la seccion 9 sale de **leer** codigo decompilado, no de ejecutarlo; los casos borde
+  (NaN, division por cero) son deducciones por lectura y deben confirmarse con una prueba aislada.
 - Los binarios (zip y JARs) **no se suben a GitHub**; quedan en `/opt/data/projects/vlf-media/jar/`
   fuera del repo, por tamano y por pendientes de licencia.
+
+## 9. Verificacion por decompilacion (generador y osciloscopio)
+
+### 9.1 Valores iniciales: coinciden con los videos
+- **Generador** (`Procesador.configuracionDeInicio`, llamado al construir y en `ajustarEncendido`):
+  portadora 10 V, 100 MHz (1e8 Hz), 0 V DC, fase 0, seno; moduladora 5 V, 10 MHz (1e7 Hz), 0 V DC, fase 0,
+  seno; senal de salida = portadora; sin modulacion (tipo 8); parametro a modificar = frecuencia de la
+  portadora; incremento (delta) = 1; modos Num/Shift apagados.
+  `GeneradorSeñales.configuracionCero` pone todo en 0: es el estado interno previo; la configuracion
+  visible la fija el `Procesador`.
+- **Reinicio al apagar/encender: confirmado.** Encender invoca `configuracionDeInicio`; apagar genera
+  senal 0. Es el invariante que muestran los videos (apagar el generador lleva el canal a cero).
+- **Osciloscopio** (`ProcesadorComandos.configuracionInicialEquipo`): indice vertical 19 en ambos canales
+  = **2 V/div**; indice horizontal 10 = **2 ns/div**. Coincide con el video de FM.
+- Rangos de escala: vertical 1 uV/div a 20 V/div (23 pasos, secuencia 1-2-5); horizontal 1 ps/div a
+  1 s/div (37 pasos). Muestreo del graficador: **1024 muestras en 10 divisiones** (dt = s/div x 10/1024).
+
+### 9.2 Modelo matematico (para tests de caja negra)
+- Seno: A sin(2 pi f t [+ fase de la portadora en grados]). La fase solo se aplica a la portadora; la
+  moduladora no usa fase. Constante 2 pi guardada como `float` (6.28318548...), error relativo ~2.8e-8.
+- Cuadrada: +A en la primera mitad del periodo, -A en la segunda. Triangular: arranca en +A, baja a -A
+  en T/2 y sube (forma coseno). **Rampa: unipolar 0 -> A** (no de -A a +A).
+- **AM:** m = Am/Ap (se calcula automaticamente, no es parametro independiente) y
+  s(t) = (1 + m*mod(t)/Am) * portadora(t) = (1 + mod(t)/Ap) * portadora(t). Con Ap=12 V y Am=6 V, m=0,5,
+  que coincide con el ejemplo del video del indice de modulacion.
+- **FM:** s(t) = Ap sin(2 pi (fc + escala*k*mod(t)) t), con k = 2,5 (`indiceModulacionFM`) y
+  `escala` = orden de magnitud de fc (1e6 para 100 MHz). Con los valores iniciales la desviacion de pico
+  es 1e6 x 2,5 x 5 V = 12,5 MHz. **Con moduladora cuadrada, FM devuelve la portadora sin modular.**
+- **FSK:** solo actua con moduladora cuadrada: f = fc +/- 10 x Am x escala (con los valores iniciales,
+  +/-50 MHz, es decir 150 y 50 MHz). Con seno/triangular/rampa devuelve la portadora sin modular.
+  La desviacion crece con Am, y con Am=0 desaparece la modulacion (coincide con el video de FSK).
+- `generarMuestraSeñalSalida` suma el nivel DC solo a la portadora sin modular; en AM/FM/FSK y para la
+  moduladora **no se suma DC** en los metodos leidos.
+
+### 9.3 Observaciones de fidelidad (para conversar con el profesor)
+1. **La "FM" no es FM canonica**: sustituye la frecuencia instantanea dentro de sin(2 pi f(t) t) en vez de
+   integrar el mensaje en la fase; es una aproximacion de barrido. Pedagogicamente puede ser deliberado;
+   un experto lo notaria en una validacion estricta (relevante para el criterio de fidelidad).
+2. FM y FSK son mutuamente excluyentes por la forma de onda moduladora (cuadrada -> FSK, el resto -> FM).
+3. La desviacion depende del orden de magnitud de fc (`escala`), no de la frecuencia moduladora.
+4. `getEscala` devuelve 0 fuera de [1e-6, 1e9) Hz, por lo que FM/FSK degradan a portadora sin modular
+   con fc = 0 o >= 1 GHz, sin aviso.
+5. **Casos borde probables (deduccion por lectura, sin ejecutar):** en AM con Am=0 la expresion
+   mod/Am es 0/0 (NaN); con Ap=0, Am/Ap divide por cero. Confirmar con una prueba aislada.
+6. El limite del display (incremento/decremento) acota la mantisa a 0..1000 por escala; el rango de
+   fase (+/-360, visto en el video) no fue verificado en el codigo.
+7. Sin anti-aliasing: a escalas de tiempo grandes con portadoras de 100 MHz la rejilla de 1024 muestras
+   submuestrea; un osciloscopio real tambien tiene limites, pero el efecto aqui es de software.
+8. Quedan `System.out.println` de depuracion en el flujo de botones.
+
+### 9.4 Oraculos de prueba derivados (alimentan `lab.model.numeric_deviation`)
+| Prueba | Entrada | Salida esperada |
+|---|---|---|
+| Inicial | encender | Ap=10 V, fc=100 MHz, DC=0, Am=5 V, fm=10 MHz, seno, salida=portadora |
+| Escalas osciloscopio | encender | 2 V/div, 2 ns/div, ambos canales |
+| Periodo | portadora inicial | T = 10 ns (CV2-CV1) |
+| Pico a pico | portadora inicial | Vpp = 20 V, invariante a la escala |
+| AM | Ap=12, Am=6 | m = 0,5; envolvente max 18 V, min 6 V |
+| FM (seno) | valores iniciales | desviacion pico 12,5 MHz |
+| FSK (cuadrada) | valores iniciales | frecuencias 50 y 150 MHz |
+| FSK, Am=0 | Am=0 | portadora sin modular |
+| FM con cuadrada | moduladora cuadrada | portadora sin modular |
+| Apagado | apagar generador | canal del osciloscopio a 0 |

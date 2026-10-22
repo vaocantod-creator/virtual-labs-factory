@@ -71,7 +71,8 @@ siguiendo el backlog ya existente en ese repo.
 - [ ] Aplicar el Metodo Castillo en la especificacion de Rbot (Fase 1) y registrar la Component Library.
 - [ ] Medir `lab.component_reuse_pct` desde el segundo laboratorio (Fase 3).
 - [ ] Decidir si el Laboratorio de Instrumentacion entra como 4º caso (**CEO explicito**).
-- [ ] Horizonte Fase 5: inmersivo/metaverso (trabajo futuro del articulo).
+- [ ] WebXR (peticion del profesor): prototipo inmersivo de Rbot **tras** la paridad con Java; ver ADR-0001. Horizonte Fase 5: metaverso.
+- [x] Stack de Rbot aprobado por el CEO: Three.js + TypeScript (ADR-0001, 2026-10-22).
 
 ## Fase 5 — Plataforma educativa (horizonte posterior)
 

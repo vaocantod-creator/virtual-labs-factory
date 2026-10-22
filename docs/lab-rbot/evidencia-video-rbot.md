@@ -51,7 +51,7 @@ de imagen, sombreado plano. **Coincide con el hallazgo del prototipo** (0 textur
 2. La paridad visual tiene ahora referencia: colores pasteles lisos, sombreado plano, sin texturas.
 3. Los dos controles visibles (*Movimiento Vertical*, *Azimut*, *Elevacion*) son los spinners del Centro de Mando: coinciden con los rangos
    de `ViewFinder.java` (-18..58 y los demas).
-4. Para convertirlo en un **test dorado** hace falta un segundo video, mas corto, con la **secuencia de comandos conocida**
+4. **Actualizacion:** el test dorado numerico se construyo ejecutando el codigo real de Rbot (`ensamblado-y-paridad.md`); la lectura de la captura posterior de Victor corrige: Movimiento Vertical **58**, Azimut **76**, Elevacion **-50**, y los dos dialogos de red (Receptor 127.0.0.1:5555 -> 127.0.0.1:8080; Control a Distancia 192.168.1.13:8080 -> 127.0.0.1:5555). Un video seria util solo para comparar el dibujado: hace falta un segundo video, mas corto, con la **secuencia de comandos conocida**
    y los valores de los controles visibles a resolucion legible (p. ej. `g g g i i c e a`, con captura al final de cada paso).
 
 ## Siguiente paso

@@ -63,11 +63,18 @@ A definir (propuesta):
 - **Accesibilidad:** corre en un equipo sin GPU dedicada (criterio de `docs/01`).
 - **WebXR (fase posterior):** sesion inmersiva funcional en un visor soportado, con modo no inmersivo como alternativa.
 
+## 5a. Comportamiento verificado con el codigo real (ver `ensamblado-y-paridad.md`)
+- Entrada: **flechas direccionales** (arriba=`g`, abajo=`h`, derecha=`i`, izquierda=`j`); los spinners envian `a`..`f` solo con cambios de exactamente un paso.
+- Paridad numerica del Entorno Experimental (cuerpo, camara, ruedas y eslabones) con el puerto web: 0 diferencias en 77 secuencias.
+- Comportamiento heredado a decidir (ADR): estado compartido entre avanzar y retroceder (`gh` no vuelve al origen), retraso de un paso en la camara,
+  acumuladores sin limite en el receptor.
+
 ## 5b. Evidencia disponible
 - Codigo y tests del repo `vdiquez/Rbot` (verificado).
 - Prototipo de carga de las 19 piezas `.3ds` en Three.js: `docs/lab-rbot/prototipo-carga-3ds.md` (19/19 cargan).
 - Grabacion de Rbot funcionando: `docs/lab-rbot/evidencia-video-rbot.md` (sin voz; no permite leer los valores de los controles).
-- Falta: video con **secuencia de comandos conocida** para construir el test dorado.
+- Oraculo Java con el codigo real de Rbot (`prototypes/rbot-oracle/`): 77 secuencias de referencia para el test dorado (ya no hace falta un segundo video para el comportamiento numerico).
+- Falta: capturas de Rbot real con una secuencia conocida para decidir la iluminacion y comparar el dibujado.
 
 ## 6. Riesgos
 - Reproducir con exactitud la cinematica acumulativa.

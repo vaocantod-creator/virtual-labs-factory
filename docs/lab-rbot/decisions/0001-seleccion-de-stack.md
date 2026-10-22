@@ -1,7 +1,8 @@
 # ADR-0001: Seleccion de tecnologia para migrar Rbot
 
-- **Estado:** PROPUESTA (pendiente de aprobacion del CEO; cambia logica core del simulador legado,
-  ver gates en `docs/03-roadmap.md`)
+- **Estado:** **ACEPTADA por el CEO (Victor) el 2026-10-22**: Three.js + TypeScript. WebXR queda como
+  extension planificada, no como requisito inicial (ver seccion "WebXR"). El puente UDP->WebSocket y los
+  tests dorados siguen como estrategia propuesta.
 - **Fecha:** 2026-10-22
 - **Laboratorio / alcance:** Rbot (`vdiquez/Rbot`)
 - **Decide:** Arquitecto Heuristico propone; CEO aprueba
@@ -79,10 +80,42 @@ Mapeo del Metodo Castillo al nuevo stack (a confirmar con el profesor):
 - Queda dependiente de aprobacion: Node.js en el entorno del estudiante solo para el puente, o
   alojarlo en un servidor de la universidad.
 
+## WebXR (consulta del profesor Castillo, oct 2026)
+
+**Pertinente, como fase posterior y no como base.** Razones:
+- Encaja con el trabajo futuro del propio articulo ICAETT 2022 (3D inmersivo, cascos, metaverso) y con el
+  eje 3D de la heuristica ("representacion espacial e inmersiva"). Es evidencia directa para la tesis.
+- Costo bajo en Three.js: `renderer.xr` y los helpers `VRButton`/`ARButton` vienen incluidos. Se habilita
+  con `renderer.xr.enabled = true`, un boton de entrada, controladores via `renderer.xr.getController()` y
+  `renderer.setAnimationLoop()` en vez de `requestAnimationFrame`. La escena y la logica del robot no cambian.
+- Rbot gana sentido en inmersivo: la camara montada en el robot da una vista primera persona natural.
+- **Limite de alcance (segun caniuse y comunidad, oct 2026): Safari en iPhone/iPad no soporta WebXR**
+  (hasta la version 27.2 consultada). Si funciona en Chrome/Edge (Android, escritorio con headset), Meta
+  Quest Browser y, segun foros de desarrolladores, Safari de Vision Pro (AR aun parcial). Para estudiantes con
+  iPhone la experiencia debe ser **no inmersiva** (la version de pantalla normal).
+- No hace falta casco para trabajar: existe emulacion en navegador (extension "Immersive Web Emulator"),
+  [A VERIFICAR] que sirva para este caso.
+
+**Reglas para que WebXR no complique la migracion:**
+1. El modo de pantalla normal es la **linea base** y el criterio de paridad con Java; WebXR es una capa opcional encima.
+2. Disenar desde ahora la escena para escala real en metros (en XR, 1 unidad = 1 metro) y separar
+   "camara/entrada" de "escena": la camara de Rbot se maneja con comandos, el visor XR con la cabeza.
+3. La entrada se abstrae: teclado/UI del Centro de Mando -> controladores XR, mapeados al mismo enum de
+   comandos `a`..`j`. El protocolo no cambia.
+4. Riesgo pedagogico y de salud a evaluar con QA Pedagogico: mareo por movimiento artificial (el robot
+   avanza sin que el usuario se mueva) -> usar vista de cabina fija o teletransporte; no aceleraciones bruscas.
+5. Accesibilidad: no puede ser el unico modo (equipos sin casco, politica de la universidad).
+6. Una sesion de VR en el Entorno Experimental y el Centro de Mando en el mismo navegador implica decidir
+   si el estudiante opera con controladores dentro del visor. Pregunta abierta para el profesor.
+
+Plan: prototipo XR **despues** de la paridad con Java (hito propuesto: tras portar el Entorno Experimental).
+
 ## Lo que NO se ha verificado
 
 - No se ejecuto Rbot (Java3D necesita entorno grafico; el servidor no lo tiene), asi que no he visto su
   comportamiento visual ni medido rendimiento.
 - No se probo `TDSLoader` contra los 19 `.3ds` de Rbot: la carga limpia es una hipotesis.
+- No se probo WebXR en ningun dispositivo; el soporte citado sale de caniuse y documentacion de Three.js,
+  no de pruebas propias.
 - La logica de estado de la camara (acumuladores) se leyo, no se valido con una corrida.
 - El objetivo didactico de Rbot no esta documentado en el repo; se pregunta al autor (ver especificacion).

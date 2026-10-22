@@ -53,6 +53,8 @@ estructura de cremallera, controlado a distancia desde un Centro de Mando.
 Verificables hoy en el repo:
 - `./gradlew check` en verde (50 tests, Sonar Quality Gate OK) durante toda la migracion del lado Java.
 - Los 10 comandos `a`..`j` se reconocen y uno desconocido se rechaza (ya cubierto en `CommandTest`).
+- **Propiedades de los comandos (ADR-0002):** reversibilidad, independencia del historial, magnitud lineal, camara sin retraso y saturacion en los limites:
+  103 propiedades verificadas (`prototypes/rbot-web/tools/propiedades.mjs`).
 
 A definir (propuesta):
 - **Test dorado de comportamiento:** para una secuencia fija de comandos (p. ej. `g g i c e a`), las
@@ -66,8 +68,9 @@ A definir (propuesta):
 ## 5a. Comportamiento verificado con el codigo real (ver `ensamblado-y-paridad.md`)
 - Entrada: **flechas direccionales** (arriba=`g`, abajo=`h`, derecha=`i`, izquierda=`j`); los spinners envian `a`..`f` solo con cambios de exactamente un paso.
 - Paridad numerica del Entorno Experimental (cuerpo, camara, ruedas y eslabones) con el puerto web: 0 diferencias en 77 secuencias.
-- Comportamiento heredado a decidir (ADR): estado compartido entre avanzar y retroceder (`gh` no vuelve al origen), retraso de un paso en la camara,
-  acumuladores sin limite en el receptor.
+- Comportamiento original (medido): estado compartido entre avanzar y retroceder (`gh` no vuelve al origen; el primer `g` va hacia atras), retraso de un
+  paso en la camara y acumuladores sin limite en el receptor. **Corregido por ADR-0002**: comandos relativos fijos, reversibles y sin retraso; el
+  original queda como `modo: 'legado'` para paridad.
 
 ## 5b. Evidencia disponible
 - Codigo y tests del repo `vdiquez/Rbot` (verificado).

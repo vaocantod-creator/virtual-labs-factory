@@ -2,8 +2,11 @@
 
 Prototipo del ADR-0001 (`docs/lab-rbot/decisions/0001-seleccion-de-stack.md` en `virtual-labs-factory`):
 comprueba que las 19 piezas `.3ds` del repo `vdiquez/Rbot` se cargan con `TDSLoader` de Three.js.
-**No es todavia la migracion de Rbot**: no hay cinematica, ni comandos UDP, ni vistas del robot. Solo carga,
-mide y muestra las piezas en una rejilla.
+**No es todavia la migracion completa de Rbot** (no hay red UDP/WebSocket, ni Centro de Mando propio). Contiene:
+- `piezas.html` / `src/piezas.ts`: carga y mide las 19 piezas `.3ds` (informe de la primera etapa).
+- `index.html` / `src/app.ts` + `src/robot/`: el **Entorno Experimental** ensamblado (cuerpo, 4 ruedas, 2 orugas de 29 eslabones,
+  estructura de camara) con las 4 vistas y el despacho de los 10 comandos. Flechas del teclado = mover; los controles = camara.
+- `tools/comparar.mjs`: prueba de paridad numerica contra el codigo real de Rbot (`../rbot-oracle/`), 77 secuencias, 0 diferencias.
 
 ## Uso
 ```bash
@@ -11,7 +14,9 @@ mide y muestra las piezas en una rejilla.
 npm install
 npm run dev                        # http://127.0.0.1:5173
 npm run build                      # tsc --noEmit + vite build
-npm run probar                     # Chromium sin pantalla: informe de carga + captura (requiere el servidor dev activo)
+npm run probar                     # Chromium sin pantalla: informe de carga de piezas + captura (servidor dev activo; abre /piezas.html)
+node tools/escena.mjs "gggiii" out.png   # ejecuta una secuencia y guarda captura de las 4 vistas
+node tools/comparar.mjs ../rbot-oracle/oraculo-77-secuencias.json   # paridad con Java
 ```
 `probar` usa Chromium con WebGL por software (SwiftShader), asi que no necesita GPU ni pantalla.
 Edita la ruta de Chromium en `tools/probar.mjs` si no coincide con tu equipo.

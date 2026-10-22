@@ -20,8 +20,10 @@
 - El protocolo es de **10 comandos de una letra, `a`..`j`**, con esta semantica (enum `Command`):
   `a`/`b` camara vertical arriba/abajo; `c`/`d` azimut izquierda/derecha; `e`/`f` elevacion arriba/abajo;
   `g`/`h` avanzar/retroceder; `i`/`j` girar derecha/izquierda. Un comando desconocido se rechaza y se registra.
-- El estado de la camara se **acumula** por paso fijo (vertical 0,1; azimut y elevacion 2): ese
-  comportamiento es parte del sistema original y debe conservarse hasta que un ADR lo cambie.
+- **Cada comando es un incremento relativo fijo** (ADR-0002, que reemplaza el comportamiento original de estado acumulado compartido):
+  vertical 0,1; azimut y elevacion 2; avance 4 unidades; giro 4 grados. Un comando contrario deshace exactamente al anterior, el efecto no
+  depende del historial y la camara reacciona al primer comando. Los limites del Centro de Mando se aplican tambien en el receptor.
+  El comportamiento original sigue disponible como `modo: 'legado'` solo para pruebas de paridad.
 - El movimiento es **cinematico**, sin motor de fisica; el desplazamiento del robot se expresa por pasos
   discretos de orugas/ruedas (15 posiciones de rueda, 24 grados por paso).
 - Host y puertos por defecto estan **centralizados en un unico lugar** (`RbotRuntimeConfig`): 0.0.0.0

@@ -76,7 +76,8 @@ siguiendo el backlog ya existente en ese repo.
 - [x] Prototipo de carga `.3ds` (`prototypes/rbot-web/`): 19/19 piezas cargan. Video de Rbot recibido (`docs/lab-rbot/evidencia-video-rbot.md`).
 - [x] Robot ensamblado en Three.js y **paridad numerica con el codigo real de Rbot: 77 secuencias, 0 diferencias** (`docs/lab-rbot/ensamblado-y-paridad.md`).
 - [x] Comportamiento de comandos mejorado (ADR-0002): relativos, reversibles, sin retraso; 103 propiedades, 0 fallos. Pendiente: decidir el alcance sobre el repo Java y la interoperabilidad con el Centro de Mando Java.
-- [ ] Extender el oraculo a las 4 vistas; capturas de Rbot real con una secuencia conocida (iluminacion); puente UDP->WebSocket; decidir hallazgos de comportamiento heredado.
+- [x] Puente UDP<->WebSocket + Centro de Mando web + Receptor con retransmision (ADR-0003): 30 pruebas del puente y 21 extremo a extremo, 0 fallos; cliente Java real verificado.
+- [ ] Extender el oraculo a las 4 vistas; capturas de Rbot real con una secuencia conocida (iluminacion); probar contra las aplicaciones Swing completas en una maquina con pantalla.
 
 ## Fase 5 — Plataforma educativa (horizonte posterior)
 

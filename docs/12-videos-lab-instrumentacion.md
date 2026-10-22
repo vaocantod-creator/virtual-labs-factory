@@ -5,7 +5,7 @@
 > extraccion de fotogramas. Transcripciones completas: `docs/lab-instrumentacion/transcripciones.md`.
 > **Limites:** la transcripcion tiene errores de reconocimiento (ver seccion 6). No pude interpretar
 > el contenido visual de los fotogramas con fiabilidad; lo aqui descrito sale del audio. Los JARs
-> aun no han llegado.
+> se analizan en `docs/13-jars-lab-virtual-v5.md`.
 
 ## 1. Que son los videos
 
@@ -98,9 +98,9 @@ Cada fila es una rubrica ejecutable: accion del estudiante + resultado medible e
 
 ## 5. Brechas y preguntas (para `docs/11` y la conversacion con el profesor)
 
-- **Faltan en los videos:** disparo/sincronismo (trigger), acoplamiento AC/DC, demodulacion, el
-  analizador de espectro/FFT que cita el articulo, y la entrada "aux". ¿Existen en el software o solo
-  estan previstos?
+- **Faltan en los videos:** disparo/sincronismo (trigger), acoplamiento AC/DC, demodulacion y la entrada
+  "aux". El analizador de espectro HP, el osciloscopio HP, el medidor SWR y el atenuador SWR **si existen
+  en el software** (ver `docs/13`) pero no tienen videos; ¿existen practicas de esos equipos?
 - **Posible imprecision en un guion** (`4c4fb3dc82f3`): pide "manipular la perilla de escala vertical"
   para ver ciclos al cambiar frecuencia; en terminos fisicos corresponde a la escala *horizontal*
   (tiempo). Confirmar si es error de la narracion o de la transcripcion.
@@ -125,5 +125,4 @@ esta transcripcion.
 - `docs/05` (caso 4): ahora tiene evidencia de practicas reales (esta pagina).
 - Skill `patrones-castillo-3d` y `docs/09`: los oraculos numericos de la seccion 4 alimentan
   `lab.model.numeric_deviation`.
-- Pendiente cuando lleguen los JARs: inspeccion de clases/paquetes (sin ejecutar) y contraste contra
-  los patrones del articulo (Object Mobility, Event Controller, Graphic Element Handler).
+- Los JARs ya fueron analizados: `docs/13-jars-lab-virtual-v5.md`.

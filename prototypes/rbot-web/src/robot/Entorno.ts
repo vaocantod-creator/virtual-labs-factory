@@ -3,6 +3,21 @@ import { Cuerpo } from './Cuerpo';
 import { Vistas } from './vistas';
 import { type Piezas } from './ObjetoGrafico';
 import { f32 } from '../java3d';
+import {
+  PASO_CAMARA_AZIMUT, PASO_CAMARA_ELEVACION, PASO_CAMARA_VERTICAL, type Modo,
+} from './constantes';
+
+/**
+ * Rangos del Centro de Mando (ViewFinder.java) EXPRESADOS EN PASOS ENTEROS: vertical -18..58 (pasos de 0,1), azimut +-45 pasos
+ * (= +-90 grados, de 2 en 2) y elevacion +-25 pasos (= +-50 grados). Contar pasos enteros evita la deriva de redondeo `float`
+ * de sumar 0,1 muchas veces: ir y volver siempre llega exactamente al mismo estado.
+ */
+export const LIMITES_PASOS = {
+  vertical: [-18, 58],
+  azimut: [-45, 45],
+  elevacion: [-25, 25],
+} as const;
+const acotar = (v: number, [min, max]: readonly [number, number]): number => Math.min(max, Math.max(min, v));
 
 /** Protocolo UDP de una letra (enum `Command` de Rbot). Es un invariante de la constitution. */
 export const Command = {
@@ -26,10 +41,13 @@ export function comandoDesdeCodigo(code: string): Codigo {
 
 /**
  * Entorno Experimental (puerto de `EnvironmentReceiver.dispatch` + `VirtualScenary`).
- * Conserva el comportamiento de Java aunque sea peculiar:
- *  - cada comando aplica el valor de referencia ANTES de actualizarlo, asi que el primer comando de camara no mueve nada
- *    y los siguientes llevan un paso de retraso;
- *  - los acumuladores `refVertical/refAzimut/refElevacion` no tienen limite en el receptor (los limita solo la interfaz).
+ *
+ * Dos modos (ADR-0002):
+ * - 'mejorado' (por defecto): cada comando es un incremento FIJO y relativo; su efecto no depende de los comandos anteriores y
+ *   un comando contrario lo revierte (`g` luego `h` vuelve al origen; `c` luego `d`, tambien). La camara aplica el valor NUEVO,
+ *   sin retraso, y se acota al rango del Centro de Mando.
+ * - 'legado': reproduce el comportamiento del codigo Java original (estado compartido, retraso de un paso, sin limites).
+ *   Existe solo para la prueba de paridad con el oraculo Java.
  */
 export class Entorno {
   readonly raiz = new Group();
@@ -38,12 +56,20 @@ export class Entorno {
   private refVertical = 0; // float
   private refAzimut = 0; // float
   private refElevacion = 0; // float
+  // Modo mejorado: el estado es el numero de pasos (entero); el valor se deriva de ahi.
+  private nVertical = 0;
+  private nAzimut = 0;
+  private nElevacion = 0;
   /** Orden en que se ejecutaron los comandos (para volcados de depuracion). */
   readonly historial: Codigo[] = [];
 
-  constructor(piezas: Piezas, habitacion?: Group) {
-    this.cuerpo = new Cuerpo(piezas);
-    this.vistas = new Vistas();
+  constructor(
+    piezas: Piezas,
+    habitacion?: Group,
+    readonly modo: Modo = 'mejorado',
+  ) {
+    this.cuerpo = new Cuerpo(piezas, modo);
+    this.vistas = new Vistas(modo);
     // `VirtualRoom`: Cuarto.3DS trasladado a (100, 0, -10) dentro de tgContenido.
     if (habitacion) {
       habitacion.position.set(100, 0, -10);
@@ -55,6 +81,7 @@ export class Entorno {
 
   ejecutar(cmd: Codigo): void {
     this.historial.push(cmd);
+    if (this.modo === 'mejorado') return this.ejecutarMejorado(cmd);
     const c = this.cuerpo;
     const cam = c.ecm;
     switch (cmd) {
@@ -116,6 +143,48 @@ export class Entorno {
         this.vistas.izquierda();
         this.vistas.izquierdaCanvas3();
         break;
+    }
+  }
+
+  /** Comportamiento mejorado: posicion objetivo = anterior +/- paso, acotada, y se aplica de inmediato. */
+  private ejecutarMejorado(cmd: Codigo): void {
+    const c = this.cuerpo;
+    const cam = c.ecm;
+    const ajustarVertical = (pasos: number): void => {
+      this.nVertical = acotar(this.nVertical + pasos, LIMITES_PASOS.vertical);
+      this.refVertical = f32(this.nVertical * PASO_CAMARA_VERTICAL);
+      cam.cremallera.rotarEjeZ(this.refVertical);
+      cam.elevador.girarEjeY(this.refVertical);
+      this.vistas.subirBajar(this.refVertical);
+    };
+    const ajustarAzimut = (pasos: number): void => {
+      this.nAzimut = acotar(this.nAzimut + pasos, LIMITES_PASOS.azimut);
+      this.refAzimut = this.nAzimut * PASO_CAMARA_AZIMUT;
+      cam.rotarEjeZ(this.refAzimut);
+      c.ebm.girarEjeZ(f32(-this.refAzimut));
+      this.vistas.girar(this.refAzimut);
+    };
+    const ajustarElevacion = (pasos: number): void => {
+      this.nElevacion = acotar(this.nElevacion + pasos, LIMITES_PASOS.elevacion);
+      this.refElevacion = this.nElevacion * PASO_CAMARA_ELEVACION;
+      cam.cremallera.camara.rotarEjeY(this.refElevacion);
+      this.vistas.elevar(this.refElevacion);
+    };
+    switch (cmd) {
+      case Command.CAMERA_VERTICAL_UP: return ajustarVertical(1);
+      case Command.CAMERA_VERTICAL_DOWN: return ajustarVertical(-1);
+      case Command.CAMERA_AZIMUTH_LEFT: return ajustarAzimut(1);
+      case Command.CAMERA_AZIMUTH_RIGHT: return ajustarAzimut(-1);
+      case Command.CAMERA_ELEVATION_UP: return ajustarElevacion(1);
+      case Command.CAMERA_ELEVATION_DOWN: return ajustarElevacion(-1);
+      case Command.MOVE_FORWARD:
+        c.moverOrugaDerecha(); c.avanzar(); this.vistas.avanzar(); this.vistas.avanzarCanvas3(); return;
+      case Command.MOVE_BACKWARD:
+        c.moverOrugaIzquierda(); c.retroceder(); this.vistas.retroceder(); this.vistas.retrocederCanvas3(); return;
+      case Command.TURN_RIGHT:
+        c.moverDerecha(); c.derecha(); this.vistas.derecha(); this.vistas.derechaCanvas3(); return;
+      case Command.TURN_LEFT:
+        c.moverIzquierda(); c.izquierda(); this.vistas.izquierda(); this.vistas.izquierdaCanvas3(); return;
     }
   }
 

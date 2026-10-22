@@ -63,7 +63,9 @@ siguiendo el backlog ya existente en ese repo.
 ## Transversal — Metodo Castillo (insumo del articulo ICAETT 2022)
 
 - [x] Analisis del articulo (`docs/10`) y skill `patrones-castillo-3d` v0.1.
-- [ ] Reunion con el profesor (`docs/11`): confirmar patrones, alcance y tolerancias.
+- [x] Videos del lab de instrumentacion procesados (`docs/12`).
+- [ ] Inspeccionar los JARs del profesor (sin ejecutar) y contrastarlos con los patrones del articulo.
+- [ ] Reunion con el profesor (`docs/11`): confirmar patrones, alcance y tolerancias (anadir preguntas de `docs/12` seccion 5).
 - [ ] Aplicar el Metodo Castillo en la especificacion de Rbot (Fase 1) y registrar la Component Library.
 - [ ] Medir `lab.component_reuse_pct` desde el segundo laboratorio (Fase 3).
 - [ ] Decidir si el Laboratorio de Instrumentacion entra como 4º caso (**CEO explicito**).

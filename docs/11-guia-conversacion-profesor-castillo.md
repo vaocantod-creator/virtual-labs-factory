@@ -68,6 +68,14 @@ Ver `docs/12` (seccion 5) y `docs/13` (seccion 7). Las mas importantes:
 - ¿Hay videos y practicas del osciloscopio HP, el analizador de espectro y el medidor/atenuador SWR?
 - ¿Faltan JARs referenciados (`ComponentesLabTel.jar`, `NGeneradorFunciones.jar`, ...)?
 
+## 3c. WebXR (el profesor lo menciono a Victor)
+
+Lo que podemos decirle: pertinente y de bajo costo en Three.js, como fase posterior a la migracion; el
+modo de pantalla normal sigue siendo la base. Preguntas: ¿WebXR es requisito de la heuristica (eje 3D
+inmersivo) o extension? ¿Que dispositivos tienen sus estudiantes (Quest, moviles Android, iPhone)? Safari
+en iPhone/iPad no soporta WebXR, asi que hace falta una alternativa. ¿VR (inmersivo total) o AR (sobre la
+camara)? ¿Hay preocupacion por mareo/tiempo de uso en las practicas?
+
 ## 4. Lo que necesitamos de el (entregables)
 
 - PDF/manuscrito de los articulos de patrones y de metodo sistemico.

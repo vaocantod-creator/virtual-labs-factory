@@ -73,6 +73,8 @@ siguiendo el backlog ya existente en ese repo.
 - [ ] Decidir si el Laboratorio de Instrumentacion entra como 4º caso (**CEO explicito**).
 - [ ] WebXR (peticion del profesor): prototipo inmersivo de Rbot **tras** la paridad con Java; ver ADR-0001. Horizonte Fase 5: metaverso.
 - [x] Stack de Rbot aprobado por el CEO: Three.js + TypeScript (ADR-0001, 2026-10-22).
+- [x] Prototipo de carga `.3ds` (`prototypes/rbot-web/`): 19/19 piezas cargan. Video de Rbot recibido (`docs/lab-rbot/evidencia-video-rbot.md`).
+- [ ] Ensamblar el robot completo en Three.js y comparar con el video; pedir a Victor un video con secuencia de comandos conocida (test dorado).
 
 ## Fase 5 — Plataforma educativa (horizonte posterior)
 

@@ -65,6 +65,8 @@ virtual-labs-factory/
     09-sensores-auditoria.md       <- capa de sensores/metricas para auditoria y futuro aprendizaje automatico
     10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
     11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
+    12-videos-lab-instrumentacion.md <- analisis de los 29 videos del lab de instrumentacion (practicas, oraculos, brechas)
+    lab-instrumentacion/transcripciones.md <- transcripciones automaticas de los videos
     decisions/                     <- ADRs (0000-plantilla-adr.md es la plantilla)
   templates/
     constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)

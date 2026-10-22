@@ -10,7 +10,7 @@ declare global {
       ejecutar(l: string): void;
       estado(): Estado;
       historial(): string[];
-      probar(l: string): Estado;
+      probar(l: string, modo?: 'legado' | 'mejorado'): Estado;
       error?: string;
     };
   }
@@ -150,8 +150,8 @@ async function main(): Promise<void> {
     estado: () => entorno.estado(),
     historial: () => [...entorno.historial],
     // Estado tras una secuencia en un Entorno nuevo (sin dibujar): para la prueba de paridad con Java.
-    probar: (l) => {
-      const e = new Entorno(piezas);
+    probar: (l, modo = 'mejorado') => {
+      const e = new Entorno(piezas, undefined, modo);
       e.secuencia(l);
       return e.estado();
     },

@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 
 const CHROME = '/opt/data/tools/chromium-1208/chrome-linux64/chrome';
-const URL = process.argv[2] || 'http://127.0.0.1:5173/';
+const URL = process.argv[2] || 'http://127.0.0.1:5173/piezas.html';
 const SALIDA = process.argv[3] || '/opt/data/projects/rbot-web/captura.png';
 const PUERTO = 9333;
 

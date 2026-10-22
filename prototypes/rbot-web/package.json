@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "probar": "node tools/probar.mjs"
+    "probar": "node tools/probar.mjs",
+    "escena": "node tools/escena.mjs",
+    "comparar": "node tools/comparar.mjs ../rbot-oracle/oraculo-77-secuencias.json"
   },
   "devDependencies": {
     "typescript": "5.9.3",

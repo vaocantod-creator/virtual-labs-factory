@@ -2,27 +2,44 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <title>Rbot Web — Entorno Experimental (prototipo)</title>
+  <title>Rbot Web — Entorno Experimental y Centro de Mando</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     html, body { margin: 0; height: 100%; background: #202124; color: #ddd; font: 13px system-ui, sans-serif; overflow: hidden; }
     #app { position: fixed; inset: 0; }
-    #hud { position: fixed; right: 8px; top: 8px; background: #000b; padding: 8px 10px; border-radius: 6px; min-width: 230px; }
-    #hud h4 { margin: 0 0 6px; font-size: 13px; }
-    #hud label { display: grid; grid-template-columns: 110px 1fr 38px; gap: 6px; align-items: center; margin: 3px 0; }
-    #hud small { color: #9aa; display: block; margin-top: 6px; line-height: 1.3; }
+    .panel { position: fixed; background: #000c; padding: 8px 10px; border-radius: 6px; z-index: 5; }
+    .panel h4 { margin: 0 0 6px; font-size: 13px; }
+    #red { right: 8px; top: 8px; width: 270px; }
+    #red label { display: grid; grid-template-columns: 90px 1fr; gap: 6px; align-items: center; margin: 3px 0; }
+    #red input[type=text], #red input[type=number] { width: 100%; box-sizing: border-box; background: #1b1d21; color: #ddd; border: 1px solid #444; border-radius: 3px; padding: 2px 4px; }
+    #red input.mal { border-color: #e55; }
+    #estado { margin-top: 6px; min-height: 2.6em; line-height: 1.3; }
+    .info { color: #9bd; } .aviso { color: #eb6; } .error { color: #f77; }
+    #ctl label { display: grid; grid-template-columns: 100px 1fr 42px; gap: 6px; align-items: center; margin: 3px 0; }
+    #ctl { right: 8px; top: 205px; width: 270px; }
+    #ctl small { color: #9aa; display: block; margin-top: 6px; line-height: 1.3; }
+    #modo { left: 8px; bottom: 8px; }
     .etq { position: fixed; color: #000a; font-weight: 600; pointer-events: none; text-shadow: 0 0 3px #fff; }
+    #rol { position: fixed; left: 8px; top: 8px; z-index: 6; background: #000c; padding: 4px 8px; border-radius: 6px; }
   </style>
 </head>
 <body>
   <div id="app"></div>
-  <div id="hud">
+  <div id="rol">Rbot Web · rol: <b id="rolTxt">autonomo</b></div>
+  <div class="panel" id="red">
+    <h4>Comunicacion (Ubicacion y Destino)</h4>
+    <label>IP local <span id="ipLocal">—</span></label>
+    <label>Puerto local <span id="puertoLocal">—</span></label>
+    <label>IP destino <input type="text" id="ipDestino" value="127.0.0.1" /></label>
+    <label>Puerto destino <input type="text" id="puertoDestino" value="8080" /></label>
+    <div id="estado" class="info">Modo autonomo (sin red). Para usar la red: <code>?rol=receptor</code> o <code>?rol=centro</code>.</div>
+  </div>
+  <div class="panel" id="ctl">
     <h4>Control a Distancia</h4>
     <label>Mov. vertical <input id="mv" type="range" min="-18" max="58" step="1" value="0" /><span id="mvv">0</span></label>
     <label>Azimut <input id="az" type="range" min="-90" max="90" step="2" value="0" /><span id="azv">0</span></label>
     <label>Elevacion <input id="el" type="range" min="-50" max="50" step="2" value="0" /><span id="elv">0</span></label>
-    <small>Flechas del teclado: ↑ avanzar, ↓ retroceder, → girar derecha, ← girar izquierda.<br />
-    Los controles envian el mismo comando de una letra que Rbot (a..f).</small>
+    <small>Flechas del teclado: ↑ avanzar, ↓ retroceder, → derecha, ← izquierda. Cada control envia el comando de una letra (a..f) por cada paso.</small>
   </div>
   <div class="etq" id="e1">Perspectiva</div>
   <div class="etq" id="e2">Superior</div>

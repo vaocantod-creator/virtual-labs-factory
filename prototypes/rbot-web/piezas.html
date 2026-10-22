@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Rbot Web — prototipo de carga de piezas .3ds</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body { margin: 0; height: 100%; background: #111; color: #ddd; font: 13px system-ui, sans-serif; }
+    #app { position: fixed; inset: 0; }
+    #panel { position: fixed; top: 8px; left: 8px; max-height: 94%; overflow: auto; background: #000a; padding: 8px 10px; border-radius: 6px; }
+    #panel table { border-collapse: collapse; }
+    #panel td { padding: 1px 8px 1px 0; }
+    .ok { color: #7fe27f; } .bad { color: #ff7b7b; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="panel"><b>Cargando piezas…</b></div>
+  <script type="module" src="/src/piezas.ts"></script>
+</body>
+</html>

@@ -1,15 +1,16 @@
 ---
 name: patrones-castillo-3d
 description: "Use when disenando un lab 3D. Metodo del prof. Castillo."
-version: 0.1.0
+version: 0.2.0
 ---
 
 # Patrones Castillo 3D (metodo de programacion sistemica)
 
 Fuente: Melo Q., Castillo R. et al., ICAETT 2022, LNNS 619, pp. 483-496 (ver
-`docs/10-insumo-articulo-castillo.md`). Estado: **borrador v0.1**. Los patrones se describen en el
-articulo solo a nivel de nombre y funcion; el detalle completo sera publicado por el profesor en un
-articulo futuro. Todo lo marcado [A CONFIRMAR] debe validarse con el, no inventarse.
+`docs/10-insumo-articulo-castillo.md`). Estado: **borrador v0.2**. Los patrones se describen en el
+articulo a nivel de nombre y funcion; el Graphic Element Handler fue **confirmado** en los JARs de la Version 5
+(`docs/13`). Object Mobility y Event Controller se ven como capacidades pero con otros nombres. Todo lo
+marcado [A CONFIRMAR] debe validarse con el profesor, no inventarse.
 
 ## Cuando usar
 - Arquitecto Heuristico: al escribir spec/plan de un lab (instrumento, equipo o sistema).

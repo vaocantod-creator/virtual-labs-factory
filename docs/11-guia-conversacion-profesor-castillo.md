@@ -64,6 +64,7 @@ Ver `docs/12` (seccion 5) y `docs/13` (seccion 7). Las mas importantes:
 - ¿`ObjetoGrafico`, `ObjetoGrafico2` y `EquipoTelecom` son versiones sucesivas del mismo patron? ¿Cual es la vigente?
 - ¿"Object Mobility" es la movilidad de la clase base o un patron aparte? ¿"Event Controller" son los `*Control` + `Procesador*`?
 - ¿Licencia y permisos para analizar, derivar rubricas y citar fragmentos?
+- ¿La "FM" del generador (sustitucion de frecuencia instantanea, no integral del mensaje) es una simplificacion didactica deliberada? ¿Y que FM/FSK dependan de la forma de onda moduladora?
 - ¿Hay videos y practicas del osciloscopio HP, el analizador de espectro y el medidor/atenuador SWR?
 - ¿Faltan JARs referenciados (`ComponentesLabTel.jar`, `NGeneradorFunciones.jar`, ...)?
 

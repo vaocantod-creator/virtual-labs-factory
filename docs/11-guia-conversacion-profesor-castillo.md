@@ -57,12 +57,22 @@ Sobre casos de prueba
   espectro) sea un 4º caso de prueba de la fabrica? (decision final de Victor)
 - ¿Puede compartir las practicas y manuales de usuario ya elaborados y el codigo del prototipo?
 
+## 3b. Preguntas derivadas de los videos y de los JARs
+
+Ver `docs/12` (seccion 5) y `docs/13` (seccion 7). Las mas importantes:
+- ¿Entrega el codigo fuente `.java`? Hoy solo tenemos binarios `.class`.
+- ¿`ObjetoGrafico`, `ObjetoGrafico2` y `EquipoTelecom` son versiones sucesivas del mismo patron? ¿Cual es la vigente?
+- ¿"Object Mobility" es la movilidad de la clase base o un patron aparte? ¿"Event Controller" son los `*Control` + `Procesador*`?
+- ¿Licencia y permisos para analizar, derivar rubricas y citar fragmentos?
+- ¿Hay videos y practicas del osciloscopio HP, el analizador de espectro y el medidor/atenuador SWR?
+- ¿Faltan JARs referenciados (`ComponentesLabTel.jar`, `NGeneradorFunciones.jar`, ...)?
+
 ## 4. Lo que necesitamos de el (entregables)
 
 - PDF/manuscrito de los articulos de patrones y de metodo sistemico.
 - Documento doctoral vigente (terminologia exacta; hoy `HEURISTICA.md` es borrador).
 - Manuales de practica y de usuario del laboratorio de instrumentacion.
-- Codigo fuente o repo del prototipo (si desea compartirlo).
+- Codigo fuente `.java` del prototipo (hoy solo tenemos los JARs de la Version 5).
 - Criterios de validacion formales que usara para la tesis.
 - Repos pendientes: patrones de radiacion y satelites (por Victor).
 

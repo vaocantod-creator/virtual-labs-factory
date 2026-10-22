@@ -1,7 +1,7 @@
 import { Group } from 'three';
 import { ObjetoGrafico, type Piezas } from './ObjetoGrafico';
 import { Transform3D, f32, rad, setTransform } from '../java3d';
-import { RUEDAS } from './constantes';
+import { PASO_AVANCE, PASO_GIRO_GRADOS, RUEDAS, type Modo } from './constantes';
 import { TrackAssembly } from './oruga';
 import { WheelMovement } from './rueda';
 import { EngranajeBaseMotor, EstructuraCamara } from './camara';
@@ -33,7 +33,10 @@ export class Cuerpo extends ObjetoGrafico {
   private der = 0.1; // double
   private refIZ = 0; // double
 
-  constructor(private readonly piezas: Piezas) {
+  constructor(
+    private readonly piezas: Piezas,
+    private readonly modo: Modo = 'mejorado',
+  ) {
     super();
     this.construir();
   }
@@ -109,7 +112,22 @@ export class Cuerpo extends ObjetoGrafico {
     for (const l of this.od1.eslabones) l.retroceder();
   }
 
+  /** Traslada el cuerpo `dx` en su eje X local (el frente del robot es -X). */
+  private trasladarX(dx: number): void {
+    this.util4.setTranslation(dx, 0, 0);
+    this.util2.mul(this.util4);
+    setTransform(this.tg, this.util2);
+  }
+
+  /** Gira el cuerpo `grados` alrededor de Z (positivo = antihorario visto desde arriba). */
+  private girarZ(grados: number): void {
+    this.utility55.rotZ(rad(grados));
+    this.util2.mul(this.utility55);
+    setTransform(this.tg, this.util2);
+  }
+
   avanzar(): void {
+    if (this.modo === 'mejorado') return this.trasladarX(-PASO_AVANCE);
     this.util4.setTranslation(f32(this.paso - this.refX), 0, 0);
     this.util2.mul(this.util4);
     setTransform(this.tg, this.util2);
@@ -118,6 +136,7 @@ export class Cuerpo extends ObjetoGrafico {
   }
 
   retroceder(): void {
+    if (this.modo === 'mejorado') return this.trasladarX(PASO_AVANCE);
     this.util4.setTranslation(f32(this.paso - this.refX), 0, 0);
     this.util2.mul(this.util4);
     setTransform(this.tg, this.util2);
@@ -126,6 +145,7 @@ export class Cuerpo extends ObjetoGrafico {
   }
 
   derecha(): void {
+    if (this.modo === 'mejorado') return this.girarZ(-PASO_GIRO_GRADOS);
     this.utility55.rotZ(rad(this.der - this.refIZ));
     this.util2.mul(this.utility55);
     setTransform(this.tg, this.util2);
@@ -134,6 +154,7 @@ export class Cuerpo extends ObjetoGrafico {
   }
 
   izquierda(): void {
+    if (this.modo === 'mejorado') return this.girarZ(PASO_GIRO_GRADOS);
     this.utility55.rotZ(rad(this.der - this.refIZ));
     this.util2.mul(this.utility55);
     setTransform(this.tg, this.util2);

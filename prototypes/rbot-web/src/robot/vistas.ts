@@ -1,5 +1,6 @@
 import { Group, PerspectiveCamera } from 'three';
 import { Transform3D, f32, rad, setTransform } from '../java3d';
+import { PASO_AVANCE, PASO_GIRO_GRADOS, type Modo } from './constantes';
 
 /**
  * Plataformas de vista de `VirtualScenary.java`: 4 vistas del Entorno Experimental (panel del "Receptor", 2x2).
@@ -51,7 +52,7 @@ export class Vistas {
   private derCanvas3 = 0; // float
   private refIZCanvas3 = 0; // float
 
-  constructor() {
+  constructor(private readonly modo: Modo = 'mejorado') {
     for (const c of [this.iso, this.superior, this.primera, this.cercana]) {
       c.near = 0.1;
       c.far = 100000; // Java: setBackClipDistance(1000.0) en unidades fisicas; aqui se amplia (ver nota en docs)
@@ -129,6 +130,20 @@ export class Vistas {
     this.raiz.add(this.g7);
   }
 
+  /** Modo mejorado: traslacion relativa fija sobre el nodo `nodo`, acumulada en `acum`. */
+  private mover(nodo: Group, acum: Transform3D, tmp: Transform3D, dx: number): void {
+    tmp.setTranslation(dx, 0, 0);
+    acum.mul(tmp);
+    setTransform(nodo, acum);
+  }
+
+  /** Modo mejorado: giro relativo fijo en Z. */
+  private girar_(nodo: Group, acum: Transform3D, tmp: Transform3D, grados: number): void {
+    tmp.rotZ(rad(grados));
+    acum.mul(tmp);
+    setTransform(nodo, acum);
+  }
+
   // --- movimientos de `VirtualScenary` ---
   subirBajar(subirBajarY: number): void {
     this.util4.setTranslation(0, f32(subirBajarY - this.refZ), 0);
@@ -149,6 +164,7 @@ export class Vistas {
     this.refX = elevarX;
   }
   avanzar(): void {
+    if (this.modo === 'mejorado') return this.mover(this.g6, this.util13, this.util12, -PASO_AVANCE);
     this.util12.setTranslation(f32(this.alejarAcercarZ - this.refAva), 0, 0);
     this.util13.mul(this.util12);
     setTransform(this.g6, this.util13);
@@ -156,6 +172,7 @@ export class Vistas {
     this.alejarAcercarZ = f32(this.alejarAcercarZ - 4);
   }
   retroceder(): void {
+    if (this.modo === 'mejorado') return this.mover(this.g6, this.util13, this.util12, PASO_AVANCE);
     this.util12.setTranslation(f32(this.alejarAcercarZ - this.refAva), 0, 0);
     this.util13.mul(this.util12);
     setTransform(this.g6, this.util13);
@@ -163,6 +180,7 @@ export class Vistas {
     this.alejarAcercarZ = f32(this.alejarAcercarZ + 4);
   }
   derecha(): void {
+    if (this.modo === 'mejorado') return this.girar_(this.g6, this.util13, this.util14, -PASO_GIRO_GRADOS);
     this.util14.rotZ(rad(this.der - this.refIZ));
     this.util13.mul(this.util14);
     setTransform(this.g6, this.util13);
@@ -170,6 +188,7 @@ export class Vistas {
     this.der -= 4;
   }
   izquierda(): void {
+    if (this.modo === 'mejorado') return this.girar_(this.g6, this.util13, this.util14, PASO_GIRO_GRADOS);
     this.util14.rotZ(rad(this.der - this.refIZ));
     this.util13.mul(this.util14);
     setTransform(this.g6, this.util13);
@@ -177,6 +196,7 @@ export class Vistas {
     this.der += 4;
   }
   avanzarCanvas3(): void {
+    if (this.modo === 'mejorado') return this.mover(this.g7, this.util30, this.util28, -PASO_AVANCE);
     this.util28.setTranslation(f32(this.alejarAcercarZCanvas3 - this.refAvaCanvas3), 0, 0);
     this.util30.mul(this.util28);
     setTransform(this.g7, this.util30);
@@ -184,6 +204,7 @@ export class Vistas {
     this.alejarAcercarZCanvas3 = f32(this.alejarAcercarZCanvas3 - 4);
   }
   retrocederCanvas3(): void {
+    if (this.modo === 'mejorado') return this.mover(this.g7, this.util30, this.util28, PASO_AVANCE);
     this.util28.setTranslation(f32(this.alejarAcercarZCanvas3 - this.refAvaCanvas3), 0, 0);
     this.util30.mul(this.util28);
     setTransform(this.g7, this.util30);
@@ -191,6 +212,7 @@ export class Vistas {
     this.alejarAcercarZCanvas3 = f32(this.alejarAcercarZCanvas3 + 4);
   }
   derechaCanvas3(): void {
+    if (this.modo === 'mejorado') return this.girar_(this.g7, this.util30, this.util26, -PASO_GIRO_GRADOS);
     this.util26.rotZ(rad(f32(this.derCanvas3 - this.refIZCanvas3)));
     this.util30.mul(this.util26);
     setTransform(this.g7, this.util30);
@@ -198,6 +220,7 @@ export class Vistas {
     this.derCanvas3 = f32(this.derCanvas3 - 4);
   }
   izquierdaCanvas3(): void {
+    if (this.modo === 'mejorado') return this.girar_(this.g7, this.util30, this.util26, PASO_GIRO_GRADOS);
     this.util26.rotZ(rad(f32(this.derCanvas3 - this.refIZCanvas3)));
     this.util30.mul(this.util26);
     setTransform(this.g7, this.util30);

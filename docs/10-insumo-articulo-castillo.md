@@ -3,6 +3,8 @@
 > Fuente: Melo Q., Castillo R., Valencia V., Bravo D., Simbana L. "Virtual Laboratory of Electronic
 > Instrumentation Based on a Programming Proposal Focused on Systems". ICAETT 2022, LNNS 619,
 > pp. 483-496, Springer 2023. DOI 10.1007/978-3-031-25942-5_38.
+> Actualizacion: los JARs de la V5 (`docs/13`) muestran que el analizador de espectro, un osciloscopio HP,
+> un medidor SWR y un atenuador SWR ya existen; "futuro/previsto" en este documento esta superado.
 > Nota: lectura completada con el PDF integro (15 paginas). Hallazgos adicionales: 4 subsistemas
 > (iluminacion, visualizacion, mobiliario, gestion de equipos), uso del patron MVC, hojas de calculo
 > para validar formulas, 2 manuales de practica + manuales de usuario. Los detalles de los patrones

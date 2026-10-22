@@ -66,10 +66,12 @@ virtual-labs-factory/
     10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
     11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
     12-videos-lab-instrumentacion.md <- analisis de los 29 videos del lab de instrumentacion (practicas, oraculos, brechas)
-    lab-rbot/                      <- constitution, especificacion y ADR-0001 de migracion de Rbot (propuestas)
+    lab-rbot/                      <- constitution, especificacion, ADR-0001 (aceptada), prototipo y evidencia en video de Rbot
     13-jars-lab-virtual-v5.md      <- analisis estatico de los JARs de la Version 5 (patrones confirmados, equipos, deuda)
     lab-instrumentacion/transcripciones.md <- transcripciones automaticas de los videos
     decisions/                     <- ADRs (0000-plantilla-adr.md es la plantilla)
+  prototypes/
+    rbot-web/                      <- prototipo Three.js + TypeScript: carga de las 19 piezas .3ds de Rbot
   templates/
     constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)
     spec.md                        <- plantilla de especificacion por laboratorio

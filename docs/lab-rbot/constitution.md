@@ -31,6 +31,7 @@
 - El robot esta compuesto por piezas modeladas (19 archivos `.3ds`): cuerpo, orugas (eslabones y
   ruedas), estructura de camara con cremallera, engranajes y camara. La **fidelidad visual y la
   articulacion de esas piezas** se preserva; no se simplifican sin un ADR.
+- Una experiencia inmersiva (WebXR) es **opcional**: nunca reemplaza el modo de pantalla normal.
 - Hay **multiples vistas** del entorno (primera persona, isometrica, superior); la migracion no
   elimina vistas.
 - Los recursos 3D se resuelven por una capa comun (`AssetResolver`), no por rutas sueltas.

@@ -66,5 +66,19 @@ export const RUEDAS: ReadonlyArray<RuedaConfig> = [
   { desX: f32(-8.86), desY: f32(-25.12), desZ: f32(2.93), espejoZ: true, avanzaIncrementa: false, initGy: f32(-3.19) },
 ];
 
+/**
+ * Modo de comportamiento de los comandos (ADR-0002).
+ * - 'mejorado' (por defecto): cada comando es un incremento relativo FIJO; su efecto no depende de los comandos anteriores.
+ * - 'legado': reproduce el comportamiento exacto del codigo Java original (estado acumulado compartido); solo para pruebas de paridad.
+ */
+export type Modo = 'legado' | 'mejorado';
+
+/** Magnitudes por comando. Son las del regimen estable de Java (lo que hacia el 2do comando en adelante). */
+export const PASO_AVANCE = 4; // unidades por comando g/h (= separacion entre eslabones de la oruga)
+export const PASO_GIRO_GRADOS = 4; // grados por comando i/j
+export const PASO_CAMARA_VERTICAL = 0.1; // unidades de cremallera por comando a/b
+export const PASO_CAMARA_AZIMUT = 2; // grados por comando c/d
+export const PASO_CAMARA_ELEVACION = 2; // grados por comando e/f
+
 export const GRADOS_POR_POSICION_RUEDA = f32(-24.0);
 export const NUM_POSICIONES_RUEDA = 15;

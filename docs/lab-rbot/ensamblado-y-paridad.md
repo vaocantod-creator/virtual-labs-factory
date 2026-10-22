@@ -64,9 +64,12 @@ robot con dos orugas de eslabones, chasis, panel azul y torre de camara articula
   superior, asi que se amplio a 100.000. **Ese cambio no esta en Java**; es una diferencia consciente (el motor de Java3D mide la distancia de otra manera).
 - El campo de vision se convirtio de horizontal (Java3D, 45 grados) a vertical (Three.js); no se verifico contra pixeles.
 
+> **Actualizacion (mismo dia):** el CEO decidio corregir estos comportamientos. Ver `decisions/0002-comandos-relativos.md`. El modo por
+> defecto de la version web es ahora `mejorado`; lo descrito abajo corresponde al modo `legado`, que se mantiene solo para la paridad.
+
 ## 5. Hallazgos de comportamiento heredado (no son errores de la migracion)
 
-Se **conservan a proposito** porque la paridad con Java es el criterio de aceptacion. Cada uno se verifico con el oraculo (codigo real de Rbot) o
+Se conservaron en la primera version porque la paridad con Java era el criterio de aceptacion; **ADR-0002 los corrige en el modo por defecto**. Cada uno se verifico con el oraculo (codigo real de Rbot) o
 con la lectura del codigo, y esta marcado asi. Conviene decidir con Victor si se corrigen despues (cada uno requiere ADR).
 
 **Medidos con el oraculo (desplazamiento X del cuerpo, `cuerpo[3]`):**

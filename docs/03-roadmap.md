@@ -26,8 +26,10 @@ siguiendo el backlog ya existente en ese repo.
 - [ ] Ingeniero de Laboratorio ejecuta esa tarea via Claude Code/Codex CLI en modo no interactivo,
       siguiendo el Definition of Done ya definido en `CLAUDE.md` de Rbot (implementar -> validar ->
       `./gradlew check` -> commit -> push).
-- [ ] Arquitecto Heuristico redacta la primera especificacion formal (`docs/lab-rbot/especificacion.md`)
+- [~] Arquitecto Heuristico redacta la primera especificacion formal (`docs/lab-rbot/especificacion.md`)
       conectando las decisiones tecnicas del backlog con los 4 ejes de la heuristica.
+      **Borrador listo** junto con `constitution.md` y `decisions/0001-seleccion-de-stack.md` (propuestas,
+      pendientes de CEO; faltan respuestas de Victor sobre el objetivo pedagogico).
 - [ ] Reportero entrega el primer informe semanal real al CEO.
 
 ## Transversal — Brechas pendientes de la validacion contra el curso de Claude Academy

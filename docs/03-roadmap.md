@@ -64,7 +64,7 @@ siguiendo el backlog ya existente en ese repo.
 
 - [x] Analisis del articulo (`docs/10`) y skill `patrones-castillo-3d` v0.1.
 - [x] Videos del lab de instrumentacion procesados (`docs/12`).
-- [ ] Inspeccionar los JARs del profesor (sin ejecutar) y contrastarlos con los patrones del articulo.
+- [x] JARs del profesor inspeccionados sin ejecutar (`docs/13`): Graphic Element Handler confirmado en el codigo.
 - [ ] Reunion con el profesor (`docs/11`): confirmar patrones, alcance y tolerancias (anadir preguntas de `docs/12` seccion 5).
 - [ ] Aplicar el Metodo Castillo en la especificacion de Rbot (Fase 1) y registrar la Component Library.
 - [ ] Medir `lab.component_reuse_pct` desde el segundo laboratorio (Fase 3).

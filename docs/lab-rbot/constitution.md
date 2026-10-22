@@ -17,6 +17,7 @@
 ## Eje Sistemico (reglas inmutables)
 - Arquitectura de dos extremos que se comunican por **UDP**: Centro de Mando recibe en el puerto **8080**,
   Entorno Experimental en **5555**. El protocolo UDP **no se reemplaza sin un ADR aprobado**.
+  La version web lo conserva: un puente (ADR-0003) traduce UDP<->WebSocket sin cambiar los datagramas (una letra `a`..`j` por datagrama).
 - El protocolo es de **10 comandos de una letra, `a`..`j`**, con esta semantica (enum `Command`):
   `a`/`b` camara vertical arriba/abajo; `c`/`d` azimut izquierda/derecha; `e`/`f` elevacion arriba/abajo;
   `g`/`h` avanzar/retroceder; `i`/`j` girar derecha/izquierda. Un comando desconocido se rechaza y se registra.

@@ -1,6 +1,6 @@
 # Especificacion — Rbot (modernizacion)
 
-> Estado: BORRADOR del Arquitecto Heuristico, pendiente de revision del CEO (Victor es co-autor de la
+> Estado: BORRADOR del Arquitecto Heuristico (stack aprobado por el CEO: ver ADR-0001), pendiente de revision del CEO en lo demas (Victor es co-autor de la
 > tesis original: varias respuestas solo las tiene el). No menciona stack nuevo; ver ADR-0001.
 > Plantilla: `templates/spec.md`. Constitution: `docs/lab-rbot/constitution.md`.
 
@@ -36,6 +36,8 @@ estructura de cremallera, controlado a distancia desde un Centro de Mando.
 - Escena con orugas de eslabones articulados, ruedas con 15 posiciones angulares (24 grados), camara
   elevable y orientable, y un cuarto virtual (`VirtualRoom`).
 - Vistas: primera persona, isometrica y superior. La paridad visual entre versiones es criterio de aceptacion.
+- **WebXR (extension planificada, ADR-0001):** vista primera persona del robot en visor; la camara del
+  robot se separa de la camara del usuario; el modo pantalla normal es la linea base.
 - Hallazgo del Metodo Castillo: las clases de la escena extienden `BranchGroup`/`TransformGroup` sin una
   clase base que fuerce los 5 pasos; la migracion es la oportunidad de introducir `ObjetoGrafico` en el
   nuevo stack (a confirmar con el profesor).
@@ -57,6 +59,7 @@ A definir (propuesta):
 - **Interoperabilidad:** Centro de Mando Java + Entorno nuevo (y viceversa) funcionan a traves del puente.
 - **Rubrica PDD:** depende de la respuesta a la seccion 1.
 - **Accesibilidad:** corre en un equipo sin GPU dedicada (criterio de `docs/01`).
+- **WebXR (fase posterior):** sesion inmersiva funcional en un visor soportado, con modo no inmersivo como alternativa.
 
 ## 6. Riesgos
 - Reproducir con exactitud la cinematica acumulativa.

@@ -66,13 +66,14 @@ virtual-labs-factory/
     10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
     11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
     12-videos-lab-instrumentacion.md <- analisis de los 29 videos del lab de instrumentacion (practicas, oraculos, brechas)
+    13-jars-lab-virtual-v5.md      <- analisis estatico de los JARs de la Version 5 (patrones confirmados, equipos, deuda)
     lab-instrumentacion/transcripciones.md <- transcripciones automaticas de los videos
     decisions/                     <- ADRs (0000-plantilla-adr.md es la plantilla)
   templates/
     constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)
     spec.md                        <- plantilla de especificacion por laboratorio
   skills/
-    patrones-castillo-3d/          <- skill del Metodo Castillo (borrador v0.1; aun fuera de Hermes)
+    patrones-castillo-3d/          <- skill del Metodo Castillo (borrador v0.2; aun fuera de Hermes)
   factory-state.json               <- estado de la fabrica (semilla; lo actualizara el Director)
   reports/                         <- semana-NN.md generado por el Reportero (vacio hasta Fase 1)
   agents/                          <- (fase posterior) configuracion/prompts de cada agente

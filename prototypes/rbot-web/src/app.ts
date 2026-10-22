@@ -1,7 +1,21 @@
 import * as THREE from 'three';
 import { TDSLoader } from 'three/examples/jsm/loaders/TDSLoader.js';
-import { Entorno, Command, type Codigo, type Estado } from './robot/Entorno';
+import { Entorno, type Codigo, type Estado } from './robot/Entorno';
 import type { Piezas } from './robot/ObjetoGrafico';
+import { Transporte, validarDestino, type Rol } from './red/transporte';
+import { CONTROLES, ModeloControl, TECLAS } from './red/centro';
+
+type RolApp = 'autonomo' | Rol;
+const params = new URLSearchParams(location.search);
+const ROL: RolApp = params.get('rol') === 'receptor' ? 'receptor' : params.get('rol') === 'centro' ? 'centro' : 'autonomo';
+const URL_PUENTE = params.get('puente') ?? 'ws://127.0.0.1:8765';
+const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
+
+function mostrarEstado(txt: string, nivel: 'info' | 'aviso' | 'error' = 'info'): void {
+  const e = $('estado');
+  e.textContent = txt; // textContent: el texto puede venir de la red, nunca se interpreta como HTML
+  e.className = nivel;
+}
 
 declare global {
   interface Window {
@@ -40,6 +54,8 @@ async function cargarPiezas(): Promise<Piezas & { cuarto: THREE.Group }> {
 }
 
 async function main(): Promise<void> {
+  $('rolTxt').textContent = ROL === 'receptor' ? 'Entorno Experimental (Receptor)' : ROL === 'centro' ? 'Centro de Mando' : 'autonomo';
+  if (ROL === 'centro') return centroDeMando();
   const contenedor = document.getElementById('app') as HTMLElement;
   const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
   renderer.setScissorTest(true);
@@ -110,38 +126,38 @@ async function main(): Promise<void> {
   }
   renderer.setAnimationLoop(dibujar);
 
-  // Entrada: flechas direccionales (igual que Transmitter.keyPressed) y controles de camara.
-  const teclas: Record<string, Codigo> = {
-    ArrowUp: Command.MOVE_FORWARD,
-    ArrowDown: Command.MOVE_BACKWARD,
-    ArrowRight: Command.TURN_RIGHT,
-    ArrowLeft: Command.TURN_LEFT,
-  };
-  window.addEventListener('keydown', (e) => {
-    const c = teclas[e.key];
-    if (c) {
+  // Retransmision (EnvironmentReceiver.retransmit): tras ejecutar un comando recibido, se reenvia al destino configurado.
+  let transporte: Transporte | null = null;
+  const destino = () => validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value);
+
+  if (ROL === 'receptor') {
+    $<HTMLInputElement>('puertoDestino').value = '8080';
+    $('ctl').style.display = 'none'; // el Receptor de Java no tiene controles
+    transporte = new Transporte('receptor', (c) => {
       entorno.ejecutar(c);
-      e.preventDefault();
-    }
-  });
-  // Los spinners de Java emiten un comando por cada paso exacto (1, 2, 2); aqui igual, comparando con la referencia.
-  const ctl = [
-    { id: 'mv', paso: 1, arriba: Command.CAMERA_VERTICAL_UP, abajo: Command.CAMERA_VERTICAL_DOWN },
-    { id: 'az', paso: 2, arriba: Command.CAMERA_AZIMUTH_LEFT, abajo: Command.CAMERA_AZIMUTH_RIGHT },
-    { id: 'el', paso: 2, arriba: Command.CAMERA_ELEVATION_UP, abajo: Command.CAMERA_ELEVATION_DOWN },
-  ] as const;
-  for (const c of ctl) {
-    const el = document.getElementById(c.id) as HTMLInputElement;
-    const sp = document.getElementById(c.id + 'v') as HTMLElement;
-    let ref = Number(el.value);
-    el.addEventListener('input', () => {
-      const v = Number(el.value);
-      const d = v - ref;
-      if (d === c.paso) entorno.ejecutar(c.arriba);
-      else if (d === -c.paso) entorno.ejecutar(c.abajo);
-      ref = v;
-      sp.textContent = String(v);
+      transporte?.enviar(c, destino()).catch((e: Error) => mostrarEstado(e.message, 'aviso'));
+    }, mostrarEstado, URL_PUENTE);
+    transporte.conectar().then(() => {
+      $('ipLocal').textContent = transporte!.info.ipLocal;
+      $('puertoLocal').textContent = String(transporte!.info.puertoLocal ?? '—');
+    }).catch((e: Error) => mostrarEstado(e.message, 'error'));
+  } else {
+    // autonomo: los comandos se ejecutan localmente (sin red)
+    const teclas = TECLAS;
+    window.addEventListener('keydown', (e) => {
+      const c = teclas[e.key];
+      if (c) { entorno.ejecutar(c); e.preventDefault(); }
     });
+    for (const spec of CONTROLES) {
+      const id = spec.nombre === 'movVertical' ? 'mv' : spec.nombre === 'azimut' ? 'az' : 'el';
+      const el = $<HTMLInputElement>(id);
+      const modelo = new ModeloControl(spec);
+      el.addEventListener('input', () => {
+        for (const c of modelo.cambiar(Number(el.value))) entorno.ejecutar(c);
+        el.value = String(modelo.valor);
+        $(id + 'v').textContent = String(modelo.valor);
+      });
+    }
   }
 
   window.__rbot = {
@@ -156,6 +172,47 @@ async function main(): Promise<void> {
       return e.estado();
     },
   };
+}
+
+/** Centro de Mando (Transmitter + ViewFinder): sin escena 3D; solo envia comandos por UDP al destino. */
+function centroDeMando(): Promise<void> {
+  $('app').style.display = 'none';
+  for (const id of ['e1', 'e2', 'e3', 'e4']) $(id).style.display = 'none';
+  $('red').style.left = '8px'; $('red').style.right = 'auto'; $('red').style.top = '48px';
+  $('ctl').style.left = '8px'; $('ctl').style.right = 'auto'; $('ctl').style.top = '250px';
+  $<HTMLInputElement>('puertoDestino').value = '5555';
+
+  const transporte = new Transporte('centro', () => { /* el Centro de Mando de Java tampoco muestra lo que llega */ }, mostrarEstado, URL_PUENTE);
+  const enviar = (c: Codigo): void => {
+    let d;
+    try { d = validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value); }
+    catch (e) { $<HTMLInputElement>('puertoDestino').classList.add('mal'); return mostrarEstado((e as Error).message, 'error'); }
+    $<HTMLInputElement>('puertoDestino').classList.remove('mal');
+    transporte.enviar(c, d).catch((e: Error) => mostrarEstado(e.message, 'error'));
+  };
+  transporte.conectar().then(() => {
+    $('ipLocal').textContent = transporte.info.ipLocal;
+    $('puertoLocal').textContent = String(transporte.info.puertoLocal ?? '—');
+  }).catch((e: Error) => mostrarEstado(e.message, 'error'));
+
+  window.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLElement;
+    if (t instanceof HTMLInputElement && t.type === 'text') return; // no capturar flechas al editar IP/puerto
+    const c = TECLAS[e.key];
+    if (c) { enviar(c); e.preventDefault(); }
+  });
+  for (const spec of CONTROLES) {
+    const id = spec.nombre === 'movVertical' ? 'mv' : spec.nombre === 'azimut' ? 'az' : 'el';
+    const el = $<HTMLInputElement>(id);
+    const modelo = new ModeloControl(spec);
+    el.addEventListener('input', () => {
+      for (const c of modelo.cambiar(Number(el.value))) enviar(c);
+      el.value = String(modelo.valor);
+      $(id + 'v').textContent = String(modelo.valor);
+    });
+  }
+  window.__rbot = { listo: true, ejecutar: (l) => { for (const c of l) enviar(c as Codigo); }, estado: () => ({}) as Estado, historial: () => [], probar: () => ({}) as Estado };
+  return Promise.resolve();
 }
 
 main().catch((e) => {

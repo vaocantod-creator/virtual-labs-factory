@@ -1,6 +1,6 @@
 // Prueba de paridad: compara el estado del Entorno web (Three.js) con el del codigo REAL de Rbot (oraculo Java).
 // Uso: node tools/comparar.mjs <oraculo.json> [tolerancia=1e-9]
-// El navegador sin pantalla ejecuta cada secuencia en un Entorno nuevo y devuelve el estado.
+// El navegador sin pantalla ejecuta cada secuencia en un Entorno nuevo en modo 'legado' (el comportamiento original) y devuelve el estado.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 
@@ -35,7 +35,7 @@ let peor = { dif: 0, sec: '', campo: '' };
 let fallos = 0;
 const porCampo = Object.fromEntries(CAMPOS_MAT.map((c) => [c, 0]));
 for (const { sec, estado: ej } of java) {
-  const web = JSON.parse(await ev(`JSON.stringify(window.__rbot.probar(${JSON.stringify(sec)}))`));
+  const web = JSON.parse(await ev(`JSON.stringify(window.__rbot.probar(${JSON.stringify(sec)}, 'legado'))`));
   let ok = true;
   for (const c of CAMPOS_MAT) {
     let d = 0;

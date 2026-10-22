@@ -49,10 +49,12 @@ proposito como evidencia de la heuristica.
 
 - **Repo:** pendiente (prototipo del profesor Castillo; confirmar si lo comparte).
 - **Origen:** Melo Q., Castillo R. et al., ICAETT 2022 (ver `docs/10-insumo-articulo-castillo.md`).
-- **Stack actual:** Java 15, Java3D 1.5.1, Blender, UML.
-- **Estado:** prototipo (generador de funciones x2 + osciloscopio; analizador de espectro con FFT previsto).
+- **Stack actual:** Java3D 1.5.1; el articulo declara Java 15, los JARs de la Version 5 fueron compilados con JDK 1.8; Blender, UML.
+- **Estado:** prototipo (generador de funciones x2 + osciloscopio; el articulo preveia un analizador de espectro con FFT; los JARs de la V5 ya lo incluyen).
   Evidencia de uso: 29 videos de practicas (osciloscopio, generador AM/FM/FSK, 5 configuraciones);
-  ver `docs/12-videos-lab-instrumentacion.md`. JARs pendientes de recibir.
+  ver `docs/12-videos-lab-instrumentacion.md`. JARs de la Version 5 analizados en `docs/13`: el laboratorio
+  incluye ademas osciloscopio HP, analizador de espectro HP, medidor SWR y atenuador SWR (instrumentacion de RF),
+  mobiliario e iluminacion; solo hay binarios (sin fuentes `.java`).
 - **Rol en la fabrica:** candidato a laboratorio de referencia del metodo del profesor (Component
   Library, fidelidad al equipo real). NO entra al backlog hasta decision explicita del CEO.
 - **Relacion con la heuristica:** prueba mejor los ejes Sistemico y 3D; valida el Metodo Castillo

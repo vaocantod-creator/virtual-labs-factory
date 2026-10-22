@@ -1,0 +1,164 @@
+import * as THREE from 'three';
+import { TDSLoader } from 'three/examples/jsm/loaders/TDSLoader.js';
+import { Entorno, Command, type Codigo, type Estado } from './robot/Entorno';
+import type { Piezas } from './robot/ObjetoGrafico';
+
+declare global {
+  interface Window {
+    __rbot?: {
+      listo: boolean;
+      ejecutar(l: string): void;
+      estado(): Estado;
+      historial(): string[];
+      probar(l: string): Estado;
+      error?: string;
+    };
+  }
+}
+
+const ARCHIVOS = [
+  'Cuerpo Robot Pintado.3DS', 'Pieza1Oruga.3ds', 'Rueda.3ds', 'Cuarto.3DS', 'Engranaje Base-Motor.3DS',
+  'Engranaje Elevador.3DS', 'Cremallera final.3ds', 'Camara1.3ds', 'Base final.3ds',
+];
+
+async function cargarPiezas(): Promise<Piezas & { cuarto: THREE.Group }> {
+  const cargador = new TDSLoader();
+  cargador.setResourcePath('/models/');
+  const cache = new Map<string, THREE.Group>();
+  for (const a of ARCHIVOS) {
+    const g = await new Promise<THREE.Group>((res, rej) => cargador.load('/models/' + encodeURIComponent(a), res, undefined, rej));
+    cache.set(a, g);
+  }
+  return {
+    clonar(archivo: string): THREE.Group {
+      const g = cache.get(archivo);
+      if (!g) throw new Error('Pieza no cargada: ' + archivo);
+      return g.clone(true);
+    },
+    cuarto: cache.get('Cuarto.3DS')!.clone(true),
+  };
+}
+
+async function main(): Promise<void> {
+  const contenedor = document.getElementById('app') as HTMLElement;
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setScissorTest(true);
+  renderer.setPixelRatio(1);
+  contenedor.appendChild(renderer.domElement);
+
+  const piezas = await cargarPiezas();
+  const entorno = new Entorno(piezas, piezas.cuarto);
+
+  // Iluminacion de VirtualScenary: 4 luces direccionales (0.45) + ambiental (0.07) + fondo (0.28, 0.5, 0.75).
+  // Java3D usa intensidad lineal; Three.js (fisica) divide el difuso por PI, por eso se multiplica por PI.
+  const escena = new THREE.Scene();
+  escena.background = new THREE.Color(0.28, 0.5, 0.75);
+  const dirs: Array<[number, number, number]> = [
+    [700, 500, 900],
+    [700, -500, -900],
+    [-700, -500, 900],
+    [-700, 500, -900],
+  ];
+  for (const d of dirs) {
+    const l = new THREE.DirectionalLight(0xffffff, 0.45 * Math.PI);
+    l.position.set(-d[0], -d[1], -d[2]); // Java: direccion en la que viaja la luz
+    escena.add(l);
+  }
+  escena.add(new THREE.AmbientLight(0xffffff, 0.07 * Math.PI));
+  escena.add(entorno.raiz);
+
+  // Disposicion 2x2 del "Receptor" (GridLayout(2,2) con bordes de 5-10 px en Java).
+  const paneles = [
+    { cam: entorno.vistas.iso, x: 0, y: 1 },
+    { cam: entorno.vistas.superior, x: 1, y: 1 },
+    { cam: entorno.vistas.primera, x: 0, y: 0 },
+    { cam: entorno.vistas.cercana, x: 1, y: 0 },
+  ];
+  const etiquetas = ['e1', 'e2', 'e3', 'e4'].map((id) => document.getElementById(id) as HTMLElement);
+
+  function ajustar(): void {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setSize(w, h);
+    const pw = Math.floor(w / 2);
+    const ph = Math.floor(h / 2);
+    for (const p of paneles) {
+      p.cam.aspect = pw / ph;
+      // Java3D: campo de vision de 45 grados HORIZONTAL; Three.js usa el vertical.
+      p.cam.fov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(Math.PI / 8) / p.cam.aspect));
+      p.cam.updateProjectionMatrix();
+    }
+    paneles.forEach((p, i) => {
+      etiquetas[i].style.left = p.x * pw + 8 + 'px';
+      etiquetas[i].style.top = (1 - p.y) * ph + 6 + 'px';
+    });
+  }
+  window.addEventListener('resize', ajustar);
+  ajustar();
+
+  function dibujar(): void {
+    const w = renderer.domElement.width;
+    const h = renderer.domElement.height;
+    const pw = Math.floor(w / 2);
+    const ph = Math.floor(h / 2);
+    escena.updateMatrixWorld(true);
+    for (const p of paneles) {
+      renderer.setViewport(p.x * pw, p.y * ph, pw, ph);
+      renderer.setScissor(p.x * pw, p.y * ph, pw, ph);
+      renderer.render(escena, p.cam);
+    }
+  }
+  renderer.setAnimationLoop(dibujar);
+
+  // Entrada: flechas direccionales (igual que Transmitter.keyPressed) y controles de camara.
+  const teclas: Record<string, Codigo> = {
+    ArrowUp: Command.MOVE_FORWARD,
+    ArrowDown: Command.MOVE_BACKWARD,
+    ArrowRight: Command.TURN_RIGHT,
+    ArrowLeft: Command.TURN_LEFT,
+  };
+  window.addEventListener('keydown', (e) => {
+    const c = teclas[e.key];
+    if (c) {
+      entorno.ejecutar(c);
+      e.preventDefault();
+    }
+  });
+  // Los spinners de Java emiten un comando por cada paso exacto (1, 2, 2); aqui igual, comparando con la referencia.
+  const ctl = [
+    { id: 'mv', paso: 1, arriba: Command.CAMERA_VERTICAL_UP, abajo: Command.CAMERA_VERTICAL_DOWN },
+    { id: 'az', paso: 2, arriba: Command.CAMERA_AZIMUTH_LEFT, abajo: Command.CAMERA_AZIMUTH_RIGHT },
+    { id: 'el', paso: 2, arriba: Command.CAMERA_ELEVATION_UP, abajo: Command.CAMERA_ELEVATION_DOWN },
+  ] as const;
+  for (const c of ctl) {
+    const el = document.getElementById(c.id) as HTMLInputElement;
+    const sp = document.getElementById(c.id + 'v') as HTMLElement;
+    let ref = Number(el.value);
+    el.addEventListener('input', () => {
+      const v = Number(el.value);
+      const d = v - ref;
+      if (d === c.paso) entorno.ejecutar(c.arriba);
+      else if (d === -c.paso) entorno.ejecutar(c.abajo);
+      ref = v;
+      sp.textContent = String(v);
+    });
+  }
+
+  window.__rbot = {
+    listo: true,
+    ejecutar: (l) => entorno.secuencia(l),
+    estado: () => entorno.estado(),
+    historial: () => [...entorno.historial],
+    // Estado tras una secuencia en un Entorno nuevo (sin dibujar): para la prueba de paridad con Java.
+    probar: (l) => {
+      const e = new Entorno(piezas);
+      e.secuencia(l);
+      return e.estado();
+    },
+  };
+}
+
+main().catch((e) => {
+  console.error(e);
+  window.__rbot = { listo: false, error: String(e), ejecutar() {}, estado: () => ({}) as Estado, historial: () => [], probar: () => ({}) as Estado };
+});

@@ -35,7 +35,9 @@ estructura de cremallera, controlado a distancia desde un Centro de Mando.
 ## 3. Heuristicas 3D
 - Escena con orugas de eslabones articulados, ruedas con 15 posiciones angulares (24 grados), camara
   elevable y orientable, y un cuarto virtual (`VirtualRoom`).
-- Vistas: primera persona, isometrica y superior. La paridad visual entre versiones es criterio de aceptacion.
+- Vistas: el video muestra la ventana "Receptor" con **4 vistas** (perspectiva de la habitacion, superior, primera persona y
+  vista cercana del robot) y la ventana "Control a Distancia" con su vista en primera persona. La paridad visual entre versiones es
+  criterio de aceptacion; referencia en `docs/lab-rbot/evidencia-video-rbot.md` (colores pasteles lisos, sombreado plano, sin texturas).
 - **WebXR (extension planificada, ADR-0001):** vista primera persona del robot en visor; la camara del
   robot se separa de la camara del usuario; el modo pantalla normal es la linea base.
 - Hallazgo del Metodo Castillo: las clases de la escena extienden `BranchGroup`/`TransformGroup` sin una
@@ -60,6 +62,12 @@ A definir (propuesta):
 - **Rubrica PDD:** depende de la respuesta a la seccion 1.
 - **Accesibilidad:** corre en un equipo sin GPU dedicada (criterio de `docs/01`).
 - **WebXR (fase posterior):** sesion inmersiva funcional en un visor soportado, con modo no inmersivo como alternativa.
+
+## 5b. Evidencia disponible
+- Codigo y tests del repo `vdiquez/Rbot` (verificado).
+- Prototipo de carga de las 19 piezas `.3ds` en Three.js: `docs/lab-rbot/prototipo-carga-3ds.md` (19/19 cargan).
+- Grabacion de Rbot funcionando: `docs/lab-rbot/evidencia-video-rbot.md` (sin voz; no permite leer los valores de los controles).
+- Falta: video con **secuencia de comandos conocida** para construir el test dorado.
 
 ## 6. Riesgos
 - Reproducir con exactitud la cinematica acumulativa.

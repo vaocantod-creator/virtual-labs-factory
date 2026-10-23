@@ -2,10 +2,11 @@ import { Command, comandoDesdeCodigo, type Codigo } from '../robot/Entorno';
 
 /** Mensajes del puente (ver bridge/puente.mjs). */
 export type DelPuente =
-  | { t: 'listo'; rol: Rol; escuchando: boolean; puertoLocal: number | null; ipLocal: string; error: string | null }
+  | { t: 'listo'; rol: Rol; escuchando: boolean; puertoLocal: number | null; ipLocal: string; error: string | null; sala?: string; pares?: number }
+  | { t: 'par'; rol: Rol; presentes: number }
   | { t: 'cmd'; cmd: string; de: string }
   | { t: 'invalido'; texto: string; bytes: number; de: string }
-  | { t: 'ok'; id?: string | number }
+  | { t: 'ok'; id?: string | number; entregados?: number }
   | { t: 'error'; id?: string | number; motivo: string };
 
 export type Rol = 'receptor' | 'centro';
@@ -38,11 +39,16 @@ export class Transporte {
     puertoLocal: null, ipLocal: '127.0.0.1', error: null, escuchando: false,
   };
 
+  /** Hay al menos un extremo opuesto en la sala (solo modo sala). */
+  parPresente = false;
+
   constructor(
     private readonly rol: Rol,
     private readonly alComando: (c: Codigo, de: string) => void,
     private readonly alEstado: (txt: string, nivel: 'info' | 'aviso' | 'error') => void,
     private readonly url = 'ws://127.0.0.1:8765',
+    private readonly sala?: string,
+    private readonly clave?: string,
   ) {}
 
   conectar(): Promise<void> {
@@ -50,9 +56,10 @@ export class Transporte {
       let abierto = false;
       const ws = new WebSocket(this.url);
       this.ws = ws;
-      ws.onopen = () => { abierto = true; ws.send(JSON.stringify({ t: 'hola', rol: this.rol })); };
+      ws.onopen = () => { abierto = true; ws.send(JSON.stringify({ t: 'hola', rol: this.rol, ...(this.sala ? { sala: this.sala } : {}), ...(this.clave ? { clave: this.clave } : {}) })); };
       ws.onerror = () => { if (!abierto) rej(new Error('No se pudo conectar con el puente (¿esta en ejecucion?)')); };
-      ws.onclose = () => {
+      ws.onclose = (ev) => {
+        if (!abierto || ev.code === 1008) rej(new Error(ev.code === 1008 ? 'Clave del laboratorio incorrecta' : ev.code === 1013 ? 'Servidor lleno' : 'Conexion cerrada'));
         this.info.escuchando = false;
         for (const [, p] of this.pendientes) p.rej(new Error('Conexion con el puente cerrada'));
         this.pendientes.clear();
@@ -64,9 +71,16 @@ export class Transporte {
         switch (m.t) {
           case 'listo':
             this.info = { puertoLocal: m.puertoLocal, ipLocal: m.ipLocal, error: m.error, escuchando: m.escuchando };
-            if (m.error) this.alEstado(m.error, 'error');
+            if (m.sala !== undefined) {
+              this.parPresente = (m.pares ?? 0) > 0;
+              this.alEstado(`Sala "${m.sala}": ${this.parPresente ? 'companero conectado' : 'esperando al otro extremo'}`, 'info');
+            } else if (m.error) this.alEstado(m.error, 'error');
             else this.alEstado(`Escuchando UDP ${m.ipLocal}:${m.puertoLocal}`, 'info');
             res();
+            break;
+          case 'par':
+            this.parPresente = m.presentes > 0;
+            this.alEstado(`${m.rol === 'centro' ? 'Centro de Mando' : 'Entorno Experimental'} ${this.parPresente ? 'conectado' : 'desconectado'}`, this.parPresente ? 'info' : 'aviso');
             break;
           case 'cmd':
             try { this.alComando(comandoDesdeCodigo(m.cmd), m.de); } catch { this.alEstado(`Comando desconocido: ${m.cmd.slice(0, 8)}`, 'aviso'); }
@@ -77,6 +91,7 @@ export class Transporte {
             break;
           case 'ok':
             if (m.id !== undefined) { this.pendientes.get(String(m.id))?.res(); this.pendientes.delete(String(m.id)); }
+            if (m.entregados === 0) this.alEstado('Nadie recibio el comando: el otro extremo no esta en la sala', 'aviso');
             break;
           case 'error':
             if (m.id !== undefined && this.pendientes.has(String(m.id))) { this.pendientes.get(String(m.id))!.rej(new Error(m.motivo)); this.pendientes.delete(String(m.id)); }

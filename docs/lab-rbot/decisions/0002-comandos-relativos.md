@@ -1,7 +1,7 @@
 # ADR-0002: Los comandos de Rbot son incrementos relativos fijos (sin estado acumulado compartido)
 
-- **Estado:** ACEPTADA por instruccion del CEO (Victor) el 2026-10-22, para la **version web**. Falta decidir el alcance sobre el
-  repo Java `vdiquez/Rbot` (ver "Consecuencias").
+- **Estado:** ACEPTADA por instruccion del CEO (Victor) el 2026-10-22, para la **version web**. El alcance sobre el
+  repo Java `vdiquez/Rbot` se resolvio en ADR-0003 (opcion a: Centro de Mando web; el repo Java no se modifica).
 - **Laboratorio:** Rbot. **Reemplaza** la decision de conservar el comportamiento heredado (`ensamblado-y-paridad.md`, seccion 5).
 - **Decide:** Arquitecto Heuristico propone; CEO aprueba (cambia logica core del simulador: gate de `docs/03-roadmap.md`).
 

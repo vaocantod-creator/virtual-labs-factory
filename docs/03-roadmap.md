@@ -81,6 +81,7 @@ siguiendo el backlog ya existente en ese repo.
 - [x] Comportamiento de comandos mejorado (ADR-0002): relativos, reversibles, sin retraso; 103 propiedades, 0 fallos. El alcance sobre el repo Java se resolvio con la salida (a) de ADR-0003: Centro de Mando portado a la web; el repo Java no se toca.
 - [x] Puente UDP<->WebSocket + Centro de Mando web + Receptor con retransmision (ADR-0003): 30 pruebas del puente y 21 extremo a extremo, 0 fallos; cliente Java real verificado.
 - [x] Modo laboratorio (ADR-0004): servidor unico + salas + clave; 52 pruebas de servidor, 14 e2e con dos navegadores, carga de 100 parejas sin perdidas. Pendiente: ejecutar `laboratorio.sh` y construir la imagen Docker; elegir donde corre (el profesor).
+- [x] Memoria economica del proyecto (`herramientas/`): indice generado, cifras en `docs/estado.json`, verificador de coherencia (12 defectos inyectados detectados) y publicacion por diferencias.
 - [ ] Extender el oraculo a las 4 vistas; capturas de Rbot real con una secuencia conocida (iluminacion); probar contra las aplicaciones Swing completas en una maquina con pantalla.
 
 ## Fase 5 — Plataforma educativa (horizonte posterior)

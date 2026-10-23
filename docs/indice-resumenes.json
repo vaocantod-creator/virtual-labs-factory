@@ -1,0 +1,134 @@
+{
+ "HEURISTICA.md": {
+  "resumen": "Borrador vivo que traduce la heuristica doctoral del profesor (4 ejes: didactico, sistemico, 3D, agentes) en reglas operativas de la fabrica; requiere aprobacion explicita del CEO para cambiarse.",
+  "sha": "61ff51f3b9577412b8f2f96cc9abad62524246a2"
+ },
+ "README.md": {
+  "resumen": "Entrada al repo: vision, casos de prueba, arbol de archivos y estado actual con lo verificado y lo NO comprobado del piloto Rbot.",
+  "sha": "d2647fe7ec2c2a36e53a4b5a3dcf3774dbedc1ac"
+ },
+ "docs/01-red-agentica.md": {
+  "resumen": "Jerarquia de agentes (Director, Arquitecto Heuristico, 3D, Ingeniero, QA Pedagogico, Reportero), sus roles y el protocolo por factory-state.json.",
+  "sha": "55681e0d854818d260969a90e8719de36ec7ef08"
+ },
+ "docs/02-dashboard-pixel-art.md": {
+  "resumen": "Diseno del dashboard pixel-art del CEO: adaptar pixel-agents-hq/pixel-agents en vez de construir desde cero, y sus fases.",
+  "sha": "852736e47cce8c056d88f24e6d929cfe647a59be"
+ },
+ "docs/03-roadmap.md": {
+  "resumen": "Fases 0-5 y checklist por fase (aqui se marca lo hecho), gates de aprobacion del CEO y cadencia semanal. Documento a tocar al cerrar cualquier hito.",
+  "sha": "27520914a859cf15654e5c329ba65e38ff2c7b39"
+ },
+ "docs/04-impacto-educativo.md": {
+  "resumen": "Tesis de impacto en universidades de recursos limitados y modelo de plataforma educativa con IA; incluye riesgos a gestionar.",
+  "sha": "9de0350f94a6144ee748b8e8f9a6d19402f219cc"
+ },
+ "docs/05-casos-de-prueba.md": {
+  "resumen": "Ficha por laboratorio candidato: 1 Rbot (piloto), 2 radiacion, 3 satelites, 4 instrumentacion (propuesto, sin aprobar) y plantilla para nuevos.",
+  "sha": "8f8026018d3ef6d2e7b31aae6bf65ad2e998af43"
+ },
+ "docs/06-investigacion-mercado.md": {
+  "resumen": "Investigacion de mercado: labs virtuales, agentes de IA, fabricas de software agenticas, dashboards pixel-art y brechas. Contexto, no se actualiza con el piloto.",
+  "sha": "63b3d3ab3fd831af224f0cee2386ee43bec6844c"
+ },
+ "docs/07-ai-native-stack.md": {
+  "resumen": "Stack AI-Native: SDD, ADR, skills, orquestacion, harness, matriz de riesgo, EDD vs PDD y decisiones pendientes. El mas largo (~8k tokens): leer por seccion.",
+  "sha": "256af226af40b2890f25d2b31e3036eec24e0810"
+ },
+ "docs/08-validacion-curso-claude.md": {
+  "resumen": "Validacion contra el curso AI-Native SDLC Playbook de Claude Academy: mapeo por etapa, brechas (origen de la Fase 6) y conclusion.",
+  "sha": "257c0a50f91c5e324f66cdd1b62adbe14a606f49"
+ },
+ "docs/09-sensores-auditoria.md": {
+  "resumen": "Capa de sensores y metricas (JSONL por laboratorio) para auditoria, metrica de autonomia y futuro aprendizaje automatico.",
+  "sha": "9ba93618009a7cf7ab58a5089a00f51922e8821b"
+ },
+ "docs/10-insumo-articulo-castillo.md": {
+  "resumen": "Analisis del articulo ICAETT 2022 del profesor: que aporta, que ya estaba, que falta, tensiones y seccion de descartes.",
+  "sha": "52cef0f41587975503f6f642b375e190e88d16b6"
+ },
+ "docs/11-guia-conversacion-profesor-castillo.md": {
+  "resumen": "Guia para la reunion con el profesor: mensaje de apertura, recomendaciones, preguntas (incl. videos y WebXR), entregables que se piden y cuidados.",
+  "sha": "1ec68eed83d769f8fe699f5bf7e012ebced2aec4"
+ },
+ "docs/12-videos-lab-instrumentacion.md": {
+  "resumen": "Analisis de los 29 videos del lab de instrumentacion: catalogo, lo que revelan del metodo, practicas -> rubricas PDD, brechas.",
+  "sha": "a1946b88b6b2fd3eec539dd04389b9e2f8dd2fbe"
+ },
+ "docs/13-jars-lab-virtual-v5.md": {
+  "resumen": "Analisis estatico y por decompilacion de los JARs de la Version 5: patrones confirmados, mapa de equipos, formulas, oraculos, deuda tecnica.",
+  "sha": "b75f48df77991c369599e97e59cabc72ff4ebbf9"
+ },
+ "docs/14-despliegue-laboratorio.md": {
+  "resumen": "Guia operativa para desplegar Rbot Web en un laboratorio (PC del aula o Docker), seguridad minima y lo que NO esta resuelto (ADR-0004).",
+  "sha": "f84e7c7b7ba1a0eb0b4d31f6f481ce01dc2306a1"
+ },
+ "docs/decisions/0000-plantilla-adr.md": {
+  "resumen": "Plantilla de ADR (contexto, opciones, decision, consecuencias).",
+  "sha": "d49a8ef8fabd3d4db621891fa40b4eec05052755"
+ },
+ "docs/lab-rbot/constitution.md": {
+  "resumen": "Reglas inmutables de Rbot por eje (didactico, sistemico, 3D, agentes) y Metodo Castillo; fija protocolo UDP 5555/8080 y comandos relativos (ADR-0002). Propuesta pendiente de revision del CEO.",
+  "sha": "e02c4422d662481ec52035627572b162c6aa9dd3"
+ },
+ "docs/lab-rbot/decisions/0001-seleccion-de-stack.md": {
+  "resumen": "ADR aceptada: Three.js + TypeScript para migrar Rbot (opciones evaluadas, migracion gradual, puente, WebXR como fase posterior).",
+  "sha": "7f9bfaa6653e4c210d97e5e857da62cbe482d7e6"
+ },
+ "docs/lab-rbot/decisions/0002-comandos-relativos.md": {
+  "resumen": "ADR aceptada: cada comando es un incremento relativo fijo, reversible y sin retraso; tabla de defectos medidos del comportamiento Java original; 103 propiedades.",
+  "sha": "c07125cf18748061b933b9d7c13100126c924628"
+ },
+ "docs/lab-rbot/decisions/0003-puente-udp-websocket-y-centro-de-mando-web.md": {
+  "resumen": "ADR aceptada: puente Node UDP<->WebSocket sin cambiar el protocolo, Centro de Mando web, roles por URL, seguridad del puente y pruebas.",
+  "sha": "206e2061661be7e8713f02c304b9c55081e72d1b"
+ },
+ "docs/lab-rbot/decisions/0004-modo-laboratorio-salas.md": {
+  "resumen": "ADR aceptada: servidor unico con salas por pareja y clave, topes, seguridad HTTP, pruebas de carga y limites declarados.",
+  "sha": "ce9ce1854d37f9ca3097cb1e63922f4c66b8f157"
+ },
+ "docs/lab-rbot/ensamblado-y-paridad.md": {
+  "resumen": "Informe del ensamblado del robot en Three.js y la prueba de paridad numerica contra el codigo Java real (oraculo), con control negativo y hallazgos heredados.",
+  "sha": "68bf4de2d2fcdcf1e162eb724b98b5018d9df522"
+ },
+ "docs/lab-rbot/especificacion.md": {
+  "resumen": "Especificacion de Rbot (objetivo pedagogico, modelo sistemico, heuristicas 3D, criterios de exito medibles y evidencia). Borrador pendiente de revision.",
+  "sha": "25416a2dcd34df7a992e6ff735703d34d92e0300"
+ },
+ "docs/lab-rbot/evidencia-video-rbot.md": {
+  "resumen": "Lo que se ve en el video del Rbot real (dos ventanas Java, 4 vistas) y lo que no se pudo establecer; efecto sobre la especificacion.",
+  "sha": "cfe059c092febbb1463dd412b0b07698a86c369f"
+ },
+ "docs/lab-rbot/prototipo-carga-3ds.md": {
+  "resumen": "Resultado del prototipo de carga: las 19 piezas .3ds cargan con TDSLoader; hallazgos y lo que no prueba.",
+  "sha": "0ef5bfdfd8a5127c79041141d925130f8cf4338a"
+ },
+ "prototypes/rbot-oracle/README.md": {
+  "resumen": "Arnes Java que ejecuta el codigo real de Rbot sin pantalla (renderer noop + Xvfb) y vuelca matrices: genera la referencia de paridad.",
+  "sha": "d4e5409424daeaedcae80acd252320938f818ff4"
+ },
+ "prototypes/rbot-web/README.md": {
+  "resumen": "Guia del prototipo Three.js+TS: estructura, comandos de prueba, modo en red (ADR-0003), modo laboratorio (ADR-0004) y estado.",
+  "sha": "498f9730fe6f41a185e94da1940d3523cb6906c0"
+ },
+ "skills/patrones-castillo-3d/SKILL.md": {
+  "resumen": "Skill del Metodo Castillo (borrador v0.2): 7 pasos de diseno, 3 patrones, Component Library, ley dura y pitfalls.",
+  "sha": "26f3933345bc1010a857323d6914ac31d24450f7"
+ },
+ "skills/patrones-castillo-3d/references/fidelidad-y-validacion.md": {
+  "resumen": "Referencia: fidelidad al equipo real y validacion del modelo por experto.",
+  "sha": "c4674863dd9b5b7c6c6b0e919da402583515d855"
+ },
+ "skills/patrones-castillo-3d/references/patrones.md": {
+  "resumen": "Ficha de trabajo de los patrones (esqueleto con nombres reales del codigo y preguntas para el profesor).",
+  "sha": "c43de2f9f0cf88d32cb732cec0db2b38cad93b8f"
+ },
+ "templates/constitution.md": {
+  "resumen": "Plantilla de constitution por laboratorio (4 ejes + Metodo Castillo).",
+  "sha": "3499fd68b9fb6a690e441fe0afe880c939461516"
+ },
+ "templates/spec.md": {
+  "resumen": "Plantilla de especificacion por laboratorio (sin eleccion de stack).",
+  "sha": "77bd46c0cd7e3cd11c09c39586c7f348bf01f6e4"
+ }
+}

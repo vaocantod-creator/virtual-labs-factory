@@ -1,0 +1,198 @@
+{
+  "cifras": [
+    {
+      "patron": "(\\d+) propiedades",
+      "ids": [
+        "propiedades"
+      ]
+    },
+    {
+      "patron": "(\\d+) secuencias(?! aleatorias)",
+      "ids": [
+        "paridad"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas del puente (?:\\+|y) (\\d+) extremo a extremo",
+      "ids": [
+        "puente",
+        "e2e"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas (?:de|del) servidor(?: y|,| \\+) (\\d+) (?:e2e|extremo a extremo)",
+      "ids": [
+        "servidor",
+        "e2e-lab"
+      ]
+    },
+    {
+      "patron": "servidor y salas \\((\\d+) \\+ (\\d+)",
+      "ids": [
+        "servidor",
+        "e2e-lab"
+      ]
+    },
+    {
+      "patron": "(?:Puente|puente): (\\d+) comprobaciones",
+      "ids": [
+        "puente"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas del puente \\(",
+      "ids": [
+        "puente"
+      ]
+    },
+    {
+      "patron": "puente \\((\\d+)\\)",
+      "ids": [
+        "puente"
+      ]
+    },
+    {
+      "patron": "Servidor y salas: (\\d+) comprobaciones",
+      "ids": [
+        "servidor"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas del servidor de laboratorio",
+      "ids": [
+        "servidor"
+      ]
+    },
+    {
+      "patron": "Extremo a extremo: (\\d+) comprobaciones",
+      "ids": [
+        "e2e"
+      ]
+    },
+    {
+      "patron": "Extremo a extremo con dos Chromium: (\\d+) comprobaciones",
+      "ids": [
+        "e2e-lab"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas extremo a extremo \\(servidor dev",
+      "ids": [
+        "e2e"
+      ]
+    },
+    {
+      "patron": "(\\d+) pruebas extremo a extremo del modo laboratorio",
+      "ids": [
+        "e2e-lab"
+      ]
+    },
+    {
+      "patron": "extremo a extremo \\((\\d+)\\)",
+      "ids": [
+        "e2e"
+      ]
+    },
+    {
+      "patron": "probar:puente` \\((\\d+)\\)",
+      "ids": [
+        "puente"
+      ]
+    },
+    {
+      "patron": "probar:servidor` \\((\\d+)\\)",
+      "ids": [
+        "servidor"
+      ]
+    },
+    {
+      "patron": "npm run e2e` \\((\\d+)",
+      "ids": [
+        "e2e"
+      ]
+    },
+    {
+      "patron": "e2e:lab` \\((\\d+)",
+      "ids": [
+        "e2e-lab"
+      ]
+    }
+  ],
+  "frases_obsoletas": [
+    {
+      "patron": "no hay red UDP",
+      "motivo": "la red UDP/WebSocket existe desde ADR-0003"
+    },
+    {
+      "patron": "No es todavia la migracion",
+      "motivo": "el prototipo ya es una migracion funcional"
+    },
+    {
+      "patron": "Falta decidir el alcance",
+      "motivo": "resuelto en ADR-0003 (Centro de Mando web)"
+    },
+    {
+      "patron": "tecnologia propuesta: Three\\.js",
+      "motivo": "el CEO aprobo Three.js + TypeScript (ADR-0001)"
+    },
+    {
+      "patron": "Three\\.js \\+ TypeScript, pendiente de aprobacion",
+      "motivo": "el CEO aprobo Three.js + TypeScript (ADR-0001)"
+    },
+    {
+      "patron": "src/main\\.ts",
+      "motivo": "archivo eliminado (era copia de src/piezas.ts)"
+    },
+    {
+      "patron": "despliegue en red del laboratorio no se ha disenado",
+      "motivo": "diseñado en ADR-0004"
+    },
+    {
+      "patron": "pendiente de aprobacion del CEO\\)",
+      "salvo": "Instrumentacion",
+      "motivo": "solo el caso 4 (instrumentacion) sigue sin aprobar"
+    }
+  ],
+  "rutas_externas": [
+    "PLAN_EJECUTIVO.md",
+    "PLAN_TECNICO.md",
+    "BACKLOG_EJECUCION.md",
+    "CLAUDE.md",
+    "PLAN_MEJORA.md",
+    "EJECUCION_LOCAL.md",
+    "SONARQUBE_LOCAL.md",
+    "RESUMEN_EJECUTIVO_SESION.md",
+    "build.gradle",
+    "README.md",
+    "SKILL.md",
+    "package.json",
+    "package-lock.json"
+  ],
+  "prefijos_externos": [
+    "src/com/",
+    "loader/",
+    "piezas/",
+    "public/",
+    "dist/",
+    "node_modules/",
+    "graphify-out",
+    "out.png",
+    "captura.png",
+    "reports/semana",
+    "docs/decisions/NNNN",
+    "agents/",
+    "skills/<",
+    "/opt/"
+  ],
+  "remoto": {
+    "repo": "vaocantod-creator/virtual-labs-factory",
+    "rama": "main"
+  },
+  "rutas_futuras": {
+    "devcontainer.json": "requisito para cada repo de laboratorio futuro (docs/07)",
+    "references/glosario.md": "artefacto propuesto en docs/07, aun no creado",
+    "intent.md": "concepto del curso de Claude Academy analizado en docs/08, no es un archivo de este repo",
+    "spec.md": "idem (docs/08); la plantilla real es templates/spec.md",
+    "component-library.md": "archivo que cada laboratorio-repo debera crear (Metodo Castillo)"
+  }
+}

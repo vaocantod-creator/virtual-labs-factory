@@ -54,7 +54,10 @@ de evidencia empirica para la heuristica del profesor.
 virtual-labs-factory/
   README.md                       <- este archivo
   HEURISTICA.md                   <- mapeo explicito heuristica del profesor -> decisiones de la fabrica
+  herramientas/                   <- memoria economica del proyecto: proyecto.py (indice, verificar, estado, publicar), verificador.json, probar_verificador.py
   docs/
+    INDEX.md                       <- INDICE generado: leer primero (~6,6k tokens en vez de ~155k); estado verificado, resumen y secciones por documento
+    estado.json                    <- fuente unica de las cifras de las pruebas (generado); indice-resumenes.json = resumen de una linea por documento
     01-red-agentica.md             <- arquitectura de agentes, roles, jerarquia, protocolos
     02-dashboard-pixel-art.md      <- diseno tecnico de la interfaz CEO
     03-roadmap.md                  <- fases y entregables semanales (incluye Fase 6: operacion/mantenimiento)
@@ -120,6 +123,12 @@ funcional a Three.js + TypeScript. Resultados medidos (detalle y limites en cada
 - El aspecto visual frente a Java corriendo con pantalla (iluminacion, campo de vision) y el rendimiento en equipos de estudiantes y Wi-Fi reales.
 - HTTPS, reconexion automatica y pruebas con estudiantes reales.
 - Los modelos `.3ds` no estan en este repo (pertenecen a `vdiquez/Rbot`): se copian con `prototypes/rbot-web/scripts/copiar-modelos.sh`.
+
+**Memoria del proyecto (para trabajar rapido sin releerlo todo):** empezar por `docs/INDEX.md`, leer solo las secciones necesarias
+(`python3 herramientas/proyecto.py seccion <doc> <titulo>`) y, antes de publicar, ejecutar `python3 herramientas/proyecto.py todo --remoto`.
+Las cifras de las pruebas viven en `docs/estado.json` (salida real de `prototypes/rbot-web/tools/correr-todo.mjs`); los demas documentos las citan y el
+verificador comprueba que coincidan. El verificador detecta rutas rotas, cifras distintas, frases obsoletas conocidas, README sin actualizar y diferencias con GitHub;
+no detecta contradicciones de fondo entre documentos largos.
 
 **Como probarlo:** ver `prototypes/rbot-web/README.md` (desarrollo) y `docs/14-despliegue-laboratorio.md` (laboratorio).
 

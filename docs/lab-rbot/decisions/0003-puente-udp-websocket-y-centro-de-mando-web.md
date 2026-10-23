@@ -51,7 +51,7 @@ cambios. El CEO eligio la salida (a): portar tambien el Centro de Mando a la web
   logica acumulada. Para ver coincidencia, los dos extremos deben ser web, o el Entorno web debe usar `modo: 'legado'`.
 - Rendimiento con varios estudiantes a la vez: medido despues en ADR-0004 (modo sala). Para el modo UDP sigue sin medirse.
 - El puente requiere Node.js en el equipo que lo ejecute (pendiente de aprobacion del profesor, ver ADR-0001).
-- Un navegador solo conecta con un puente en `localhost` por defecto; el despliegue en red del laboratorio no se ha disenado.
+- Un navegador solo conecta con un puente en `localhost` por defecto; el despliegue en red del laboratorio se diseno despues en ADR-0004 (servidor unico con salas).
 
 ## Consecuencias
 

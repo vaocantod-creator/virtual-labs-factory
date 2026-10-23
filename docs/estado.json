@@ -1,0 +1,107 @@
+{
+  "descripcion": "Fuente unica de las cifras de verificacion. Generado por herramientas/proyecto.py estado a partir de prototypes/rbot-web/tools/correr-todo.mjs. No editar a mano las cifras.",
+  "ejecutado": "2026-10-23",
+  "huella_codigo": "91f40de269c753fc",
+  "node": "v26.7.0",
+  "todo_ok": true,
+  "pruebas": {
+    "tipos": {
+      "descripcion": "TypeScript estricto sin errores",
+      "total": null,
+      "fallos": null,
+      "ok": true,
+      "segundos": 1.6
+    },
+    "compilacion": {
+      "descripcion": "Compilacion de produccion (vite build)",
+      "total": null,
+      "fallos": null,
+      "ok": true,
+      "segundos": 1.9
+    },
+    "puente": {
+      "descripcion": "Puente UDP<->WebSocket (comprobaciones)",
+      "total": 30,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 4.4
+    },
+    "servidor": {
+      "descripcion": "Servidor de laboratorio y salas (comprobaciones)",
+      "total": 52,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 6
+    },
+    "e2e-lab": {
+      "descripcion": "Modo laboratorio extremo a extremo, dos navegadores (comprobaciones)",
+      "total": 14,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 10.3
+    },
+    "propiedades": {
+      "descripcion": "Propiedades del comportamiento de comandos (ADR-0002)",
+      "total": 103,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 2.9
+    },
+    "paridad": {
+      "descripcion": "Paridad numerica con el codigo Java real, secuencias (modo legado)",
+      "total": 77,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 2.4
+    },
+    "e2e": {
+      "descripcion": "Centro de Mando y Receptor extremo a extremo con UDP real (comprobaciones)",
+      "total": 21,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 11.6
+    },
+    "carga-15": {
+      "descripcion": "Carga: 15 parejas, 200 comandos cada una a 20 cmd/s (comandos entregados)",
+      "total": 3000,
+      "fallos": 0,
+      "ok": true,
+      "segundos": 11.5,
+      "entregados": 3000
+    }
+  },
+  "adrs": [
+    {
+      "id": "ADR-0001",
+      "archivo": "docs/lab-rbot/decisions/0001-seleccion-de-stack.md",
+      "titulo": "Seleccion de tecnologia para migrar Rbot",
+      "estado": "ACEPTADA por el CEO (Victor) el 2026-10-22: Three.js + TypeScript. WebXR queda como"
+    },
+    {
+      "id": "ADR-0002",
+      "archivo": "docs/lab-rbot/decisions/0002-comandos-relativos.md",
+      "titulo": "Los comandos de Rbot son incrementos relativos fijos (sin estado acumulado compartido)",
+      "estado": "ACEPTADA por instruccion del CEO (Victor) el 2026-10-22, para la version web. El alcance sobre el"
+    },
+    {
+      "id": "ADR-0003",
+      "archivo": "docs/lab-rbot/decisions/0003-puente-udp-websocket-y-centro-de-mando-web.md",
+      "titulo": "Puente UDP<->WebSocket y Centro de Mando web (interoperabilidad con Rbot Java)",
+      "estado": "ACEPTADA por instruccion del CEO (Victor) el 2026-10-22 (\"procede con la salida a\" del ADR-0002)."
+    },
+    {
+      "id": "ADR-0004",
+      "archivo": "docs/lab-rbot/decisions/0004-modo-laboratorio-salas.md",
+      "titulo": "Modo laboratorio: un servidor, salas por pareja, sin instalar nada en el equipo del estudiante",
+      "estado": "ACEPTADA por instruccion del CEO (Victor) el 2026-10-23 (\"prepara el modo de despliegue para el laboratorio\")."
+    }
+  ],
+  "no_comprobado": [
+    "Aplicaciones Swing de Java reales contra el puente (solo un cliente Java minimo)",
+    "scripts/laboratorio.sh sin ejecutar y Dockerfile sin construir",
+    "Aspecto visual frente a Java con pantalla (iluminacion, campo de vision)",
+    "Rendimiento en equipos de estudiantes y Wi-Fi reales; estudiantes reales",
+    "HTTPS y reconexion automatica",
+    "Nodo 20/22 (solo se probo Node 26.7)"
+  ]
+}

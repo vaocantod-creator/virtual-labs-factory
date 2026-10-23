@@ -49,7 +49,7 @@ cambios. El CEO eligio la salida (a): portar tambien el Centro de Mando a la web
   de 10 lineas que replica los datagramas, no las aplicaciones Swing. La interoperabilidad con las aplicaciones completas falta por comprobar en una maquina con pantalla.
 - **Mezclar un extremo Java sin cambios con uno web sigue dando semantica distinta** (legado vs. mejorado): el puente transporta bien, pero un Entorno Java ejecutara `g` con su
   logica acumulada. Para ver coincidencia, los dos extremos deben ser web, o el Entorno web debe usar `modo: 'legado'`.
-- Rendimiento con varios estudiantes a la vez, y la latencia real en un laboratorio: no medidos.
+- Rendimiento con varios estudiantes a la vez: medido despues en ADR-0004 (modo sala). Para el modo UDP sigue sin medirse.
 - El puente requiere Node.js en el equipo que lo ejecute (pendiente de aprobacion del profesor, ver ADR-0001).
 - Un navegador solo conecta con un puente en `localhost` por defecto; el despliegue en red del laboratorio no se ha disenado.
 

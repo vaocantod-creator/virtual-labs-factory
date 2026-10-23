@@ -4,13 +4,18 @@
     {
       "id": "rbot",
       "repo": "https://github.com/vdiquez/Rbot",
-      "fase": "Fase B - Estandarizacion tecnica",
+      "fase": "Piloto en construccion: prototipo web funcional (ADR-0001 a 0004), pendiente validacion con Java real y despliegue",
       "agente_activo": null,
-      "ultima_actividad": null,
+      "ultima_actividad": "2026-10-23",
       "bloqueado_por": null
     }
   ],
   "agentes": [
-    {"rol": "Director", "estado": "inactivo", "ultima_accion": null}
-  ]
+    {
+      "rol": "Director",
+      "estado": "inactivo",
+      "ultima_accion": null
+    }
+  ],
+  "nota": "Actualizado a mano el 2026-10-23: aun no hay agentes de la fabrica en operacion; este archivo todavia no lo mantiene el Director."
 }

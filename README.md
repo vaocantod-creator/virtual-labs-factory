@@ -39,6 +39,7 @@ educativo, y la fabrica queda como una plataforma reutilizable para generar nuev
 ## Casos de prueba disponibles (inputs historicos del CEO)
 
 1. **Rbot** — Robot virtual 3D controlado por UDP (Java3D, 2007). https://github.com/vdiquez/Rbot
+   *Laboratorio piloto en curso: migracion funcional a Three.js + TypeScript en `prototypes/rbot-web/` (ver "Estado actual").*
 2. **Patrones de radiacion** — proyecto de telecomunicaciones (pendiente de compartir repo).
 3. **Satelites** — proyecto de simulacion satelital (pendiente de compartir repo).
 4. **Laboratorio de Instrumentacion Electronica** *(propuesto, pendiente de aprobacion del CEO)* —

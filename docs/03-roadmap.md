@@ -9,11 +9,14 @@ Objetivo: dejar la fabrica lista para operar, sin agentes autonomos todavia ejec
 
 - [x] Crear repositorio `virtual-labs-factory`.
 - [ ] Redactar `HEURISTICA.md` junto con el profesor Andres Castillo (mapeo formal de su documento
-      a decisiones operativas de la fabrica).
-- [ ] Definir el primer laboratorio piloto: **Rbot**, porque ya tiene codigo, historia y un plan de
+      a decisiones operativas de la fabrica). *Borrador existe y se ha ido enriqueciendo (articulo ICAETT 2022, JARs, videos);
+      queda abierta porque aun no se ha revisado con el profesor ni la ha aprobado el CEO (el propio documento lo declara borrador).*
+- [x] Definir el primer laboratorio piloto: **Rbot**, porque ya tiene codigo, historia y un plan de
       modernizacion iniciado (`PLAN_EJECUTIVO.md`, `BACKLOG_EJECUCION.md` ya existen en ese repo).
+      *Cerrado el 2026-10-23: stack aprobado (ADR-0001) y prototipo funcional con pruebas (ADR-0002 a 0004, `docs/lab-rbot/`).*
 - [ ] Especificar `factory-state.json` (formato final) y donde vive (este repo o un endpoint).
       Semilla creada en la raiz del repo; falta definir esquema final y quien lo actualiza.
+      *El 2026-10-23 se actualizaron sus valores para reflejar el estado real, sin cambiar el esquema; sigue abierto.*
 - [ ] V0 del dashboard pixel-art (estatico, lee el JSON, sin movimiento).
 
 ## Fase 1 — Primer ciclo agentico real (semanas 3-5)

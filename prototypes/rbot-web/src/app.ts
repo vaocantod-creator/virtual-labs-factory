@@ -8,7 +8,12 @@ import { CONTROLES, ModeloControl, TECLAS } from './red/centro';
 type RolApp = 'autonomo' | Rol;
 const params = new URLSearchParams(location.search);
 const ROL: RolApp = params.get('rol') === 'receptor' ? 'receptor' : params.get('rol') === 'centro' ? 'centro' : 'autonomo';
-const URL_PUENTE = params.get('puente') ?? 'ws://127.0.0.1:8765';
+const SALA = params.get('sala') ?? undefined;
+const CLAVE = params.get('clave') ?? undefined;
+// Con sala, por defecto el WebSocket es el MISMO servidor que sirvio la pagina (modo laboratorio); sin sala, el puente local.
+const URL_PUENTE = params.get('puente')
+  ?? (SALA ? `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}` : 'ws://127.0.0.1:8765');
+if (CLAVE) history.replaceState(null, '', location.pathname + '?' + [...params].filter(([k]) => k !== 'clave').map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')); // la clave no queda en el historial
 const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
 
 function mostrarEstado(txt: string, nivel: 'info' | 'aviso' | 'error' = 'info'): void {
@@ -128,7 +133,8 @@ async function main(): Promise<void> {
 
   // Retransmision (EnvironmentReceiver.retransmit): tras ejecutar un comando recibido, se reenvia al destino configurado.
   let transporte: Transporte | null = null;
-  const destino = () => validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value);
+  const destino = () => (SALA ? { ip: 'sala', puerto: 1 } : validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value));
+  if (SALA) for (const id of ['ipDestino', 'puertoDestino']) $<HTMLInputElement>(id).disabled = true;
 
   if (ROL === 'receptor') {
     $<HTMLInputElement>('puertoDestino').value = '8080';
@@ -136,7 +142,7 @@ async function main(): Promise<void> {
     transporte = new Transporte('receptor', (c) => {
       entorno.ejecutar(c);
       transporte?.enviar(c, destino()).catch((e: Error) => mostrarEstado(e.message, 'aviso'));
-    }, mostrarEstado, URL_PUENTE);
+    }, mostrarEstado, URL_PUENTE, SALA, CLAVE);
     transporte.conectar().then(() => {
       $('ipLocal').textContent = transporte!.info.ipLocal;
       $('puertoLocal').textContent = String(transporte!.info.puertoLocal ?? '—');
@@ -182,10 +188,11 @@ function centroDeMando(): Promise<void> {
   $('ctl').style.left = '8px'; $('ctl').style.right = 'auto'; $('ctl').style.top = '250px';
   $<HTMLInputElement>('puertoDestino').value = '5555';
 
-  const transporte = new Transporte('centro', () => { /* el Centro de Mando de Java tampoco muestra lo que llega */ }, mostrarEstado, URL_PUENTE);
+  const transporte = new Transporte('centro', () => { /* el Centro de Mando de Java tampoco muestra lo que llega */ }, mostrarEstado, URL_PUENTE, SALA, CLAVE);
+  if (SALA) for (const id of ['ipDestino', 'puertoDestino']) $<HTMLInputElement>(id).disabled = true;
   const enviar = (c: Codigo): void => {
     let d;
-    try { d = validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value); }
+    try { d = SALA ? { ip: 'sala', puerto: 1 } : validarDestino($<HTMLInputElement>('ipDestino').value, $<HTMLInputElement>('puertoDestino').value); }
     catch (e) { $<HTMLInputElement>('puertoDestino').classList.add('mal'); return mostrarEstado((e as Error).message, 'error'); }
     $<HTMLInputElement>('puertoDestino').classList.remove('mal');
     transporte.enviar(c, d).catch((e: Error) => mostrarEstado(e.message, 'error'));

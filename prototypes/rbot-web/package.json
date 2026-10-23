@@ -12,7 +12,12 @@
     "comparar": "node tools/comparar.mjs ../rbot-oracle/oraculo-77-secuencias.json",
     "puente": "node bridge/puente.mjs",
     "probar:puente": "node bridge/puente.test.mjs",
-    "e2e": "node tools/e2e.mjs"
+    "e2e": "node tools/e2e.mjs",
+    "servidor": "node bridge/servidor.mjs",
+    "probar:servidor": "node bridge/servidor.test.mjs",
+    "e2e:lab": "node tools/e2e-lab.mjs",
+    "carga": "node tools/carga.mjs",
+    "laboratorio": "bash scripts/laboratorio.sh"
   },
   "devDependencies": {
     "@types/three": "0.186.0",

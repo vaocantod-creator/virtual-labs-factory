@@ -66,18 +66,24 @@ virtual-labs-factory/
     10-insumo-articulo-castillo.md <- analisis del articulo ICAETT 2022 del profesor: que ya esta, que falta
     11-guia-conversacion-profesor-castillo.md <- recomendaciones y preguntas para la reunion con el profesor
     12-videos-lab-instrumentacion.md <- analisis de los 29 videos del lab de instrumentacion (practicas, oraculos, brechas)
-    lab-rbot/                      <- constitution, especificacion, ADR-0001 (stack) y ADR-0002 (comandos relativos), ADR-0003 (puente UDP<->WebSocket y Centro de Mando web), ADR-0004 (modo laboratorio con salas; guia en docs/14), prototipo, evidencia en video y paridad con el codigo real de Rbot
     13-jars-lab-virtual-v5.md      <- analisis estatico de los JARs de la Version 5 (patrones confirmados, equipos, deuda)
+    14-despliegue-laboratorio.md   <- guia para desplegar Rbot Web en un laboratorio (servidor unico, salas, clave, Docker)
+    lab-rbot/                      <- laboratorio piloto Rbot:
+      constitution.md, especificacion.md   <- invariantes y spec ejecutable
+      decisions/                   <- ADR-0001 stack (Three.js + TypeScript), 0002 comandos relativos, 0003 puente UDP<->WebSocket, 0004 modo laboratorio
+      prototipo-carga-3ds.md, evidencia-video-rbot.md, ensamblado-y-paridad.md   <- evidencia por etapa
+      img/                         <- capturas
     lab-instrumentacion/transcripciones.md <- transcripciones automaticas de los videos
     decisions/                     <- ADRs (0000-plantilla-adr.md es la plantilla)
   prototypes/
-    rbot-web/                      <- Rbot en Three.js + TypeScript: robot ensamblado, 4 vistas, paridad numerica con Java
-    rbot-oracle/                   <- arnes que ejecuta el codigo real de Rbot y vuelca estados (referencia de la prueba)
+    rbot-web/                      <- Rbot en Three.js + TypeScript: robot ensamblado, 4 vistas, Centro de Mando, puente UDP<->WebSocket,
+                                      servidor de laboratorio con salas, Dockerfile y las pruebas (ver "Estado actual")
+    rbot-oracle/                   <- arnes que ejecuta el codigo real de Rbot y vuelca estados (referencia de la prueba de paridad)
   templates/
     constitution.md                <- plantilla de constitution por laboratorio (4 ejes + Metodo Castillo)
     spec.md                        <- plantilla de especificacion por laboratorio
   skills/
-    patrones-castillo-3d/          <- skill del Metodo Castillo (borrador v0.2; aun fuera de Hermes)
+    patrones-castillo-3d/          <- skill del Metodo Castillo (borrador v0.2.0; aun fuera de Hermes)
   factory-state.json               <- estado de la fabrica (semilla; lo actualizara el Director)
   reports/                         <- semana-NN.md generado por el Reportero (vacio hasta Fase 1)
   agents/                          <- (fase posterior) configuracion/prompts de cada agente
@@ -93,7 +99,30 @@ virtual-labs-factory/
 
 ## Estado actual
 
-Fase 0: planificacion y diseno de la red agentica + stack AI-Native + capa de sensores. Sin agentes
-desplegados todavia en produccion.
+**Fabrica agentica:** Fase 0 (planificacion y diseno de la red agentica, el stack AI-Native y la capa de sensores). Sin agentes
+desplegados en produccion; `factory-state.json` es solo una semilla.
+
+**Laboratorio piloto Rbot (hecho a mano con asistencia, no por la fabrica todavia):** `prototypes/rbot-web/` contiene una migracion
+funcional a Three.js + TypeScript. Resultados medidos (detalle y limites en cada documento enlazado):
+
+| Capa | Estado | Verificacion |
+|---|---|---|
+| Piezas 3D | 19/19 `.3ds` cargan | `docs/lab-rbot/prototipo-carga-3ds.md` |
+| Entorno Experimental (robot, 4 vistas) | ensamblado | paridad numerica con el codigo Java real: 77 secuencias, 0 diferencias (modo `legado`) |
+| Comandos | relativos, reversibles, sin retraso (ADR-0002) | 103 propiedades, 0 fallos |
+| Puente UDP<->WebSocket y Centro de Mando web (ADR-0003) | funcional | 30 pruebas del puente + 21 extremo a extremo; cliente Java real verificado |
+| Modo laboratorio con salas (ADR-0004) | funcional | 52 pruebas del servidor + 14 extremo a extremo con dos navegadores; carga de 100 parejas sin perdidas |
+
+**Lo que todavia NO esta comprobado** (no darlo por hecho):
+- Las aplicaciones Swing de Java reales contra el puente (solo se probo un cliente Java minimo; la ventana grafica de Java3D se cae en el servidor de desarrollo).
+- `scripts/laboratorio.sh` no se ha ejecutado y el `Dockerfile` nunca se ha construido.
+- El aspecto visual frente a Java corriendo con pantalla (iluminacion, campo de vision) y el rendimiento en equipos de estudiantes y Wi-Fi reales.
+- HTTPS, reconexion automatica y pruebas con estudiantes reales.
+- Los modelos `.3ds` no estan en este repo (pertenecen a `vdiquez/Rbot`): se copian con `prototypes/rbot-web/scripts/copiar-modelos.sh`.
+
+**Como probarlo:** ver `prototypes/rbot-web/README.md` (desarrollo) y `docs/14-despliegue-laboratorio.md` (laboratorio).
+
+**Pendiente de decision del CEO / profesor:** caso 4 (instrumentacion) sin aprobar; donde corre el servidor del laboratorio; magnitudes de paso de los
+comandos (4 unidades, 4 grados); contenido de `HEURISTICA.md`, que requiere su aprobacion explicita.
 
 Ver `docs/03-roadmap.md` para las fases siguientes.

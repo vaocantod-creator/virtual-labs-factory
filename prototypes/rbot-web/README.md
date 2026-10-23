@@ -37,3 +37,9 @@ Versiones probadas: Node 26.7, Three.js 0.186.1, Vite 6.4.5, TypeScript 5.9.3.
 3. Centro de Mando: `http://127.0.0.1:5173/?rol=centro`: flechas del teclado y 3 controles; escucha 8080 y envia a `127.0.0.1:5555`.
 
 Sin `?rol=` la aplicacion es autonoma (sin red). El puente solo reenvia letras `a`..`j` y nunca envia a IPs publicas.
+
+## Modo laboratorio (ADR-0004, guia completa en `docs/14-despliegue-laboratorio.md`)
+
+`bash scripts/laboratorio.sh` sirve la aplicacion y el puente en un solo puerto, con salas por pareja y clave. El estudiante solo abre un enlace:
+`http://<servidor>:8080/?rol=centro&sala=mesa1&clave=...` y `...?rol=receptor&sala=mesa1&clave=...`. Docker: `docker build -t rbot-web .`.
+Estado: servidor y salas probados (52 + 14 pruebas); `laboratorio.sh` y el `Dockerfile` **aun sin ejecutar**.

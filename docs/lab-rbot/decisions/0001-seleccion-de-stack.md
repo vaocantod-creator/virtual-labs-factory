@@ -77,7 +77,7 @@ Mapeo del Metodo Castillo al nuevo stack (a confirmar con el profesor):
 - La migracion es de ~3.100 lineas: el riesgo no esta en el volumen, sino en reproducir la cinematica
   exacta (pasos y acumuladores de `refVertical`, `refAzimut`, `refElevacion`).
 - La retransmision actual se hace por IP/puerto configurables en la UI; en web pasa a ser parte del puente.
-- Queda dependiente de aprobacion: Node.js en el entorno del estudiante solo para el puente, o
+- *Actualizacion 2026-10-23 (ADR-0004): el estudiante ya no instala nada, solo abre un enlace; queda por decidir DONDE corre el servidor.* Original: Node.js en el entorno del estudiante solo para el puente, o
   alojarlo en un servidor de la universidad.
 
 ## WebXR (consulta del profesor Castillo, oct 2026)

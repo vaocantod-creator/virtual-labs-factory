@@ -17,7 +17,7 @@ proposito como evidencia de la heuristica.
   `PLAN_MEJORA.md`, `EJECUCION_LOCAL.md`, `SONARQUBE_LOCAL.md`, `RESUMEN_EJECUTIVO_SESION.md`.
   Estado de calidad reportado en su backlog: `./gradlew check` con 50 tests, SonarQube Quality Gate OK;
   backlog RB-001..RB-015 en `done`. Especificacion, constitution y ADR de migracion propuestos en
-  `docs/lab-rbot/` (tecnologia propuesta: Three.js + TypeScript, pendiente de aprobacion del CEO).
+  `docs/lab-rbot/`. **Stack aprobado por el CEO (Three.js + TypeScript, ADR-0001, 2026-10-22)**; prototipo funcional en `prototypes/rbot-web/` (ADR-0002 a 0004).
 - **Rol en la fabrica:** Laboratorio piloto (Fase 1 del roadmap). Es el caso ideal para arrancar
   porque ya existe documentacion tecnica, historia y trabajo previo que reduce el riesgo de empezar
   de cero.
